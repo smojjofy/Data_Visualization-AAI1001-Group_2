@@ -1,0 +1,133 @@
+---
+title: "Project Title"
+subtitle: "Team Project Proposal"
+author: "Team Name / Authors"
+date: today
+format: 
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+---
+
+# 1. Introduction and Project Overview
+
+## 1.1 Our Project’s Aim
+
+\[Insert a brief description of the project's primary objectives, the problem being solved, and the expected outcomes here.\]
+
+## 1.2 Source & Context
+
+The original visualization/data was sourced from **\[Source Name\]** in a publication titled *“\[Publication Title\]”* (\[Date\]), available at:
+
+> \[Insert URL or citation link here\]
+
+\[Insert context regarding why this source was chosen and its relevance to the project.\]
+
+------------------------------------------------------------------------
+
+# 2. Data Overview & Quality
+
+## 2.1 Raw Data Structure 1
+
+The first data source does not follow a simple rectangular table structure. It uses a **multi-block layout** where each category occupies a separate vertical block of rows, preceded by several metadata rows. The structure is generally as follows:
+
+- **Rows 1-6:** Metadata and headers (to be skipped)
+- **Row 7:** Column headers / Year markers
+- **Rows 8+:** Data blocks separated by category headers
+
+\[Insert specific details about how the first data source is formatted and how it should be parsed.\]
+
+## 2.2 Raw Data Structure 2
+
+The second data source follows a similar multi-block convention but introduces additional complexity: the **sub-categories appear as column headers** (rather than rows), making it a two-dimensional table within each primary block.
+
+- **Rows 1-6:** Metadata and headers (to be skipped)
+- **Row 7:** Sub-category column headers
+- **Rows 8+:** Data blocks separated by primary category headers
+
+\[Insert specific details about how the second data source is formatted.\]
+
+## 2.3 Identified Data Quality Challenges
+
+Below is a summary of the data quality challenges identified during the initial data inspection, along with the planned mitigation strategies.
+
+| ID | Issue Description | Severity | Planned Decision / Mitigation |
+|----|----|----|----|
+| **C1** | \[Describe challenge 1, e.g., missing column markers\] | High | \[Describe mitigation, e.g., Extract blocks independently using known start rows\] |
+| **C2** | \[Describe challenge 2, e.g., inconsistent date formats\] | Medium | \[Describe mitigation, e.g., Standardize using `lubridate`\] |
+| **C3** | \[Describe challenge 3, e.g., hidden aggregate rows\] | Low | \[Describe mitigation, e.g., Filter out rows containing 'Total' in label column\] |
+
+------------------------------------------------------------------------
+
+# 3. Data Pipeline & Reproducibility
+
+## 3.1 Illustrative Code Structure
+
+The final pipeline code will follow the structure below. This demonstrates the planned function signatures and data flow.
+
+**Code Block: Data Extraction Helper Function** *This block should contain the named helper function used to extract and parse the raw data from the source files, utilizing specific row offsets and column indices.*
+
+```{r}
+# Insert extraction function here
+# Example: extract_data() 
+# args: raw sheet, start row, category label, col index
+```
+
+**Code Block: Data Aggregation and Summary** *This block should contain the code that aggregates the extracted tidy data into the final summary format required for the visualizations (e.g., creating the 24-row summary for chart labels).*
+
+```{r}
+# Insert aggregation/summary code here
+# Example: summary_data <- ... 
+```
+
+**Code Block: Visualization / Plotting** *This block should contain the `ggplot2` (or equivalent) code used to generate the final visual outputs, including theme customizations and scale adjustments.*
+
+```{r}
+# Insert plotting code here
+```
+
+## 3.2 Reproducibility Considerations
+
+To ensure the project is fully reproducible, the following standards are implemented:
+
+- **📁 File Structure:** All raw source files are stored in a `datasets/` subfolder within the project root. File paths are resolved programmatically relative to the `.qmd` document's directory (e.g., using `here::here()`), ensuring no absolute paths are hard-coded.
+- **📦 Package Management:** All required packages are loaded at the top of the pipeline in a single block. Package versions are captured using `sessionInfo()` at the end of the document.
+- **🔒 Source File Integrity:** All row offsets and column indices derived from visual inspection are stored as named constants in a dedicated setup block. No "magic numbers" appear inside extraction functions.
+- **✅ Built-in Assertions:** The pipeline requires no internet connection or external API calls. All data is loaded locally. Assertions are used to verify row counts and column types at each stage of the pipeline.
+
+------------------------------------------------------------------------
+
+# 4. Data Analysis Plan
+
+\[Insert the step-by-step methodology for the data analysis. This should include:\] 1. **\[Step 1 Name\]:** \[Description of the first analytical step\] 2. **\[Step 2 Name\]:** \[Description of the second analytical step\] 3. **\[Step 3 Name\]:** \[Description of the third analytical step\]
+
+------------------------------------------------------------------------
+
+# 5. References & Sources
+
+## 5.1 Article Source
+
+- \[Author/Organization\]. (\[Year\]). *\[Article Title\]*. Retrieved from \[URL\]
+
+## 5.2 Data Sources
+
+- \[Dataset Name 1\], \[Publisher/Source\], \[Year\].
+- \[Dataset Name 2\], \[Publisher/Source\], \[Year\].
+
+## 5.3 Design Reference
+
+- \[Reference to any design inspiration, color palettes (e.g., colorblind-safe palettes), or UI/UX guidelines used in the project\].
+
+------------------------------------------------------------------------
+
+# 6. Appendix: Data Dictionary
+
+| Column | Data Type | Source | Unit / Range | Role in Analysis |
+|----|----|----|----|----|
+| `var_1` | `factor` | Source 1 | \[e.g., 12 levels\] | \[e.g., Y-axis position\] |
+| `var_2` | `factor` | Source 1 & 2 | \[e.g., 2 levels\] | \[e.g., Color grouping\] |
+| `var_3` | `numeric` | Source 2 | \[e.g., 0.0 - 100.0\] | \[e.g., X-axis value\] |
+| `var_4` | `date` | Source 1 | \[e.g., 2014 - 2024\] | \[e.g., Time series filtering\] |
