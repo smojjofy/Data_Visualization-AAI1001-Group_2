@@ -65,37 +65,33 @@ The visualization dismantles the notion of a monolithic Southeast Asian energy l
 
 ------------------------------------------------------------------------
 
-# 2. Data Overview & Quality
+## 2. Critical Analysis of Original Visualization
 
-## 2.1 Raw Data Structure 1
+A critical evaluation of the original visualization reveals several structural and design flaws that hinder its ability to communicate insights effectively. Based on the dataset structure (`energy_data.csv`) and the requirements outlined in our project context, the original chart suffers from limitations in clarity, cross-country comparability, and visual design.
 
-The first data source does not follow a simple rectangular table structure. It uses a **multi-block layout** where each category occupies a separate vertical block of rows, preceded by several metadata rows. The structure is generally as follows:
+### 2.1 Clarity & Cognitive Load
+* The "Dual-Panel" Dimension Confusion: The original visualization attempts to display two completely different dimensions simultaneously: the Fuel Mix (Oil, Coal, Natural Gas, Bioenergy, Electricity) and the End-Use Sector (Industry, Transport, Buildings, Other). Combining these two distinct categorical groups into a single visual plane or adjacent unlinked panels forces the user to mentally switch contexts repeatedly, leading to high cognitive load.
+* Lack of Absolute Scale Context: Because the percentages are strictly normalized to $100\%$ per country per panel, the visualization treats all nations equally in terms of visual weight. It fails to convey the *absolute volume* of energy consumed. For example, Singapore's $66\%$ reliance on oil is visually identical in scale to a smaller or larger nation's share, obscuring the true environmental and macroeconomic impact of larger energy consumers in Southeast Asia.
 
-- **Rows 1-6:** Metadata and headers (to be skipped)
-- **Row 7:** Column headers / Year markers
-- **Rows 8+:** Data blocks separated by category headers
+### 2.2 Comparability Challenges
+* Ineffective Multi-Country Comparison: Comparing the energy profiles of 10 distinct Southeast Asian nations simultaneously using the current layout (likely stacked bars or pie charts) makes it incredibly difficult to trace specific trends. For instance, determining whether Viet Nam or Malaysia has a higher relative reliance on coal requires the viewer to eyes-hop across multiple disconnected segments.
+* Absence of Baseline Alignment: If the original chart utilizes a stacked format, components that do not sit directly on the baseline ($y = 0$) are virtually impossible to compare accurately across countries due to the shifting positions of the segments below them.
 
-\[Insert specific details about how the first data source is formatted and how it should be parsed.\]
+### 2.3 Visual Design & Aesthetic Limitations
+* Suboptimal Categorical Color Palettes: The visualization uses a high number of distinct categories across both dimensions (up to 6 categories for fuels and 4 for sectors). Without a carefully curated, colorblind-safe palette, the chart risks becoming a "rainbow" graphic where colors compete for attention rather than highlighting meaningful insights.
+* Lack of Purposeful Ordering: The countries and categories appear to be arranged alphabetically or arbitrarily, rather than sorted by a meaningful metric (e.g., descending order of clean energy share or total industrial consumption). This hides the natural ranking and narrative of the data.
 
-## 2.2 Raw Data Structure 2
+---
 
-The second data source follows a similar multi-block convention but introduces additional complexity: the **sub-categories appear as column headers** (rather than rows), making it a two-dimensional table within each primary block.
+### Summary of Critique and Proposed Improvements
 
-- **Rows 1-6:** Metadata and headers (to be skipped)
-- **Row 7:** Sub-category column headers
-- **Rows 8+:** Data blocks separated by primary category headers
+The table below summarizes the key limitations identified in the original visualization and outlines the strategic design choices we will implement in our redesigned Quarto workflow to resolve them.
 
-\[Insert specific details about how the second data source is formatted.\]
-
-## 2.3 Identified Data Quality Challenges
-
-Below is a summary of the data quality challenges identified during the initial data inspection, along with the planned mitigation strategies.
-
-| ID | Issue Description | Severity | Planned Decision / Mitigation |
-|----|----|----|----|
-| **C1** | \[Describe challenge 1, e.g., missing column markers\] | High | \[Describe mitigation, e.g., Extract blocks independently using known start rows\] |
-| **C2** | \[Describe challenge 2, e.g., inconsistent date formats\] | Medium | \[Describe mitigation, e.g., Standardize using `lubridate`\] |
-| **C3** | \[Describe challenge 3, e.g., hidden aggregate rows\] | Low | \[Describe mitigation, e.g., Filter out rows containing 'Total' in label column\] |
+| Evaluation Metric | Identified Flaws in Original | Proposed Redesign Solutions |
+| :--- | :--- | :--- |
+| Clarity & Structure | Merges distinct dimensions (Fuel vs. Sector) confusingly; hides absolute scale differences. | Use distinct, aligned small multiples (facets) for Fuels and Sectors with clear typography and explanatory subtitles. |
+| Comparability | Stacked elements make cross-country comparisons of non-baseline categories highly inaccurate. | Implement sorted grouped bar charts or clean dot plots that align all comparison points to a common baseline. |
+| Aesthetics & Color | High cognitive load from potentially cluttered layouts and non-optimized color schemes. | Apply a colorblind-safe, cohesive palette (e.g., ColorBrewer/Viridis variants) and sort countries by a dominant variable to reveal patterns instantly. |
 
 ------------------------------------------------------------------------
 
