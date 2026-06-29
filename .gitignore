@@ -6,3 +6,8 @@
 _site/
 proposal_files/
 .DS_Store
+
+// Ignore _yaml and scripts and index.qmd. Not necessary for this project
+_quarto.yml
+scripts/
+index.qmd
