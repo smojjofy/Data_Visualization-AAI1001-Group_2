@@ -1,0 +1,29 @@
+---
+title: "Southeast Asia Energy Consumption Critique"
+author: "Group 2"
+date: today
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+---
+
+```{r setup}
+library(here)
+library(tidyverse)
+library(ggplot2)
+library(patchwork)
+# Additional packages can be added here
+
+set.seed(2026)
+
+source_file <- here("data", "energy_data.csv")
+```
+
+# Southeast Asia Energy Consumption Critique
+
+This report documents the reproducible data workflow for the Southeast Asia energy dataset.
+It includes data loading, validation, summary analysis, and visualization, following the project structure described in `CONTEXT.md`.

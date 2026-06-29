@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 .positai
+_site/
+proposal_files/
+.DS_Store

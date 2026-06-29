@@ -16,15 +16,52 @@ format:
 
 ## 1.1 Our Project’s Aim
 
-\[Insert a brief description of the project's primary objectives, the problem being solved, and the expected outcomes here.\]
+Southeast Asia’s rapid economic development has triggered a profound transformation in its regional energy landscape over the past few decades. Rising energy costs, volatile fuel markets, and changing post-COVID grid demands now sit at the center of intense public and macroeconomic debates, as member nations struggle to balance aggressive industrial growth, urban expansion, and household cost-of-living stability. However, aggregate regional statistics often obscure the vast structural disparities and distinct economic vulnerabilities built into each nation's unique energy framework.
+
+Our project seeks to answer three interrelated questions using the International Energy Agency’s (IEA) 2024 final energy consumption data for Southeast Asia.
+
+**First**, how do final energy consumption mixes by fuel type actually vary across the different ASEAN nations, and what do these distinct portfolios reveal about each country's baseline resource dependencies?
+
+**Second**, are there meaningful structural disparities in how energy demand is distributed across end-use sectors that aggregate regional narratives conceal? The original visualization attempts to depict both fuel types and sector demands simultaneously, but its crowded layout, uniform column spacing, and ambiguous visual proximity make it incredibly difficult to isolate and evaluate these two separate dimensions.
+
+**Third**, does the relationship between a country's primary fuel reliance and its dominant end-use sector support or challenge the narrative that developing, agrarian-industrial economies face fundamentally different inflationary energy risks than hyper-dense, import-dependent commercial hubs?
+
+Our improved chart aims to answer all three questions in a single visualization by encoding four dimensions simultaneously: country, data dimension (fuel profile vs. sector demand), consumption category, and percentage share. The redesign moves beyond the original chart’s cluttered, ambiguous layout to offer a clean, side-by-side comparative architecture. This framework reveals exactly where regional energy vulnerabilities are concentrated, how national fuel portfolios align with sectoral demands, and how diverse the structural economic pressures truly are across the holistic Southeast Asian landscape.
 
 ## 1.2 Source & Context
 
-The original visualization/data was sourced from **\[Source Name\]** in a publication titled *“\[Publication Title\]”* (\[Date\]), available at:
+The original visualization/data was sourced from **International Energy Agency** in a publication titled *“Southeast Asia Energy Outlook 2026”* (June 2026), available at:
 
-> \[Insert URL or citation link here\]
+> https://www.iea.org/reports/southeast-asia-energy-outlook-2026/energy-in-southeast-asia
 
-\[Insert context regarding why this source was chosen and its relevance to the project.\]
+![Figure 1: Original IEA Chart - "Total Final Consumption mix by fuel and end-use sector in Southeast Asia, 2024"](images/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024.png)
+
+Source: International Energy Agency, *Southeast Asia Energy Outlook 2026*, June 2026.
+
+### 1.2.1 Original Chart's Structure & Design
+The visualization under review is a dual-panel, 100% stacked column chart titled “Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024”. The graphic functions as a comparative profile matrix, mapping the Total Final Consumption (TFC) of energy across the ten ASEAN member states. It breaks down the region's energy architecture simultaneously across three core dimensions:
+
+- Geographic Entity (X-Axis): Ten Southeast Asian nations arranged in an identical left-to-right sequence across both panels to facilitate parallel visual scanning.
+
+- Energy Supply Portfolio (Left Panel - "Fuels"): Compares the relative share of primary energy carriers fueling each economy, including Oil, Natural Gas, Coal, Bioenergy, and Electricity.
+
+- Sectoral Demand Profile (Right Panel - "Sector"): Tracks the final destination of that consumed energy across functional economic sectors, categorized into Industry, Transport, Buildings, and Other.
+
+The chart is divided into two distinct, horizontally juxtaposed panels sharing a unified vertical scale (0% to 100%). This layout relies on normalized part-to-whole configurations rather than absolute volumetric measurements.
+
+By scaling all bars to an equal 100% height, the design prioritizes structural composition over absolute scale. This allows the viewer to evaluate the systemic "DNA" of each country's energy economy, regardless of whether they are comparing a massive market like Indonesia to a smaller one like Brunei.
+
+### 1.2.2 The Story it Tells
+The visualization dismantles the notion of a monolithic Southeast Asian energy landscape, illustrating instead a region sharply divided by economic maturity, urban density, and industrial architecture. Several distinct narratives emerge from the structural composition of the bars:
+
+1. **The Shared Anchor of Petroleum:** Across almost all ASEAN nations, Oil (represented by the dominant coral base on the left panel) serves as the single largest bedrock fuel. This visual weight directly correlates with the Transport sector (orange blocks on the right panel), showing that despite varying levels of economic development, the region remains locked into liquid fossil fuel dependency to move goods and people.
+
+2. **The Agrarian-to-Urban Development Divide:** A stark contrast appears when tracking Bioenergy (teal bands) against Electricity (light blue bands). Developing or resource-rich continental economies like Viet Nam, Cambodia, and Lao DPR display large blocks of bioenergy, often used for traditional building or residential heating and cooking. Conversely, highly urbanized, industrialized, or island economies like Singapore, Malaysia, and Brunei show virtually zero bioenergy reliance, replacing it entirely with centralized Electricity and Natural Gas.
+
+3. **Diverse Sectoral Engines:** The right panel exposes fundamentally different economic drivers across the region. Viet Nam and Indonesia stand out as industrial heavyweights, with their yellow "Industry" bars consuming nearly half of their total energy footprint. In contrast, Myanmar exhibits a building-centric profile, where its massive green block reveals that the residential and commercial building footprint dwarfs its industrial and transport sectors combined.
+
+4. **The Exogenous Shock Vulnerability Matrix:** By reading the panels in parallel, the visualization tells a story of systemic risk. Nations displaying a simultaneous combination of high oil dependence (left) and massive transport/building sector exposure (right) are revealed to be highly vulnerable to external supply chain disruptions. Because their energy is spent on daily domestic survival and basic mobility rather than flexible industrial output, global energy price shocks translate directly into immediate domestic cost-of-living inflation.
+
 
 ------------------------------------------------------------------------
 

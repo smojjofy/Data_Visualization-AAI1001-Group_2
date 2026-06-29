@@ -23,7 +23,7 @@ This project critiques and improves an existing visualization of Southeast Asia'
 | Attribute | Details |
 |-----------|---------|
 | **Filename** | `data/energy_data.csv` |
-| **Nature** | **Synthetic proxy dataset** (original source is not publicly available) |
+| **Nature** | **Synthetic proxy dataset** (Derived from "Total final energy consumption mix by fuel and end-use sector in Southeast Asia, 2024", IEA) |
 | **Scope** | 10 Southeast Asian countries, Year: 2024 |
 | **Structure** | Long-format table with columns likely including: `Country`, `Fuel_Type`, `End_Use_Sector`, `Percentage`, `Panel` (`Fuels`/`Sector`) |
 | **Key Constraint** | Values are normalized to 100% per country per panel. All proportional relationships and categorical mappings are preserved from the original data, but absolute values are synthetic. |
@@ -52,10 +52,10 @@ This project critiques and improves an existing visualization of Southeast Asia'
 - No annotations or callouts to highlight key insights or anomalies
 
 **Improvement Direction:**
-- Consider small multiples, grouped bars, or interactive dashboards
-- Standardize color mappings with accessibility in mind (colorblind-safe)
-- Add data labels, clearer legends, and descriptive captions
-- Implement reproducible plotting code (e.g., `ggplot2` or `plotly`)
+- Design a clean, side‑by‑side comparative architecture that encodes four dimensions simultaneously: country, data dimension (fuel profile vs. sector demand), consumption category, and percentage share.
+- Ensure the layout clearly separates fuel‑mix and sector‑demand panels while allowing direct cross‑country comparison.
+- Maintain accessibility standards (colorblind‑safe palettes, clear legends, descriptive labels/captions).
+- Consider interactive elements (e.g., plotly) if helpful for exploration, but ensure static export remains fully intelligible.
 
 ---
 
@@ -79,16 +79,56 @@ This project critiques and improves an existing visualization of Southeast Asia'
 │   └── workflows/
 │       └── publish.yml          # Quarto rendering & GH Pages deployment
 ├── data/
-│   └── energy_data.csv          # Synthetic source data, currently the .csv is just in the root dir
+│   ├── energy_data.csv          # Raw synthetic source data
+│   └── energy_data_clean.csv    # Cleaned dataset produced by scripts/01_data_cleaning.R
+├── images/                      # Generated figures and report visuals
 ├── scripts/
 │   ├── 01_data_cleaning.R       # Ingestion, validation, transformation
 │   ├── 02_analysis.R            # Descriptive stats, comparisons
 │   └── 03_visualization.R       # Plot generation, theme customization
+├── .github/
+│   └── workflows/
+│       └── publish.yml          # Quarto rendering & GH Pages deployment
 ├── _quarto.yml                  # Global project configuration
-├── proposal.qmd                    # Main reproducible report
+├── index.qmd                    # Final reproducible report
+├── proposal.qmd                 # Proposal and project plan
 ├── CONTEXT.md                   # This file
 ├── README.md                    # Public-facing project overview
-└── .gitignore                   # Ignore _site/, .Rhistory, .DS_Store, etc.
+└── .gitignore                   # Ignore local and generated artifacts
+
+---
+
+## 5.1 File system usage and workflow commands
+
+Use this repository from the project root (`Data_Visualization-AAI1001-Group_2`). All file references must remain relative.
+
+- `data/`: raw and derived CSV files. Place new raw data here.
+- `scripts/`: R pipeline scripts that read from `data/` and write cleaned outputs back to `data/` or images to `images/`.
+- `images/`: generated figures for the report.
+- `_quarto.yml`: Quarto site settings and render options.
+- `index.qmd`: final reproducible report to render with Quarto.
+- `proposal.qmd`: project proposal and critique draft.
+- `.github/workflows/publish.yml`: GitHub Actions workflow for rendering and publishing.
+- `README.md`: repo overview and team details.
+- `CONTEXT.md`: project context, agent instructions, and workflow rules.
+
+Run the main project workflow from the repository root using R and Quarto commands:
+
+```sh
+Rscript scripts/01_data_cleaning.R
+Rscript scripts/02_analysis.R
+Rscript scripts/03_visualization.R
+quarto render index.qmd
+quarto publish gh-pages --no-input
+```
+
+For local preview, use:
+
+```sh
+quarto preview index.qmd
+```
+
+Always use `here::here()` or other relative path resolution in R scripts. Do not hard-code absolute filesystem paths.
 
 ---
 
@@ -107,6 +147,7 @@ This project critiques and improves an existing visualization of Southeast Asia'
    - Tested locally before committing
    - Reviewed by at least one human team member
    - Documented with a comment noting AI assistance (e.g., `# AI-assisted refactoring: [date]`)
+7. **Data Attribution:** Include a formal citation to the IEA dataset in the report's data section. Follow IEA's required citation format if applicable.
 
 ---
 
