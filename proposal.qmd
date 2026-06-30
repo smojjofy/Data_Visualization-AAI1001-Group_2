@@ -64,10 +64,335 @@ The visualization dismantles the notion of a monolithic Southeast Asian energy l
 
 
 ------------------------------------------------------------------------
+# 2. Critical Analysis of Original Visualization
 
-# 2. Data Overview & Quality
+The original IEA visualization, *Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024*, provides a compact overview of how energy consumption differs across Southeast Asian countries. Its main strength is that it compares two related dimensions in one figure: the **fuel mix** of each country and the **end-use sector** where energy is consumed.
 
-## 2.1 Raw Data Structure 1
+However, the chart also has several limitations. While it works well as a broad regional overview, it is less effective for detailed comparison. The critique below focuses on three main areas: clarity, comparability, and visual design.
+
+## 2.1 Clarity and Cognitive Load
+
+The chart attempts to show two different analytical dimensions at the same time.
+
+The fuel panel answers the question: **what type of energy is consumed?** This includes categories such as oil, coal, natural gas, bioenergy, electricity, and other fuels.
+
+The sector panel answers a different question: **where is energy used?** This includes categories such as industry, transport, buildings, and other uses.
+
+Although these two dimensions are related, they are not the same. Placing them side by side in one dense visual forces the reader to switch between two different category systems. This increases cognitive load, especially for readers who are not already familiar with energy terminology.
+
+Another limitation is that the chart is based on percentage shares. This is useful for comparing composition, but it does not show the absolute volume of energy consumed by each country. As a result, a large energy consumer and a smaller energy consumer are given equal visual weight. This makes the chart effective for showing relative mix, but weaker for communicating the overall scale of regional energy demand.
+
+## 2.2 Comparability Challenges
+
+The stacked bar format makes some comparisons difficult. In a stacked bar chart, only the first segment starts from a common baseline. The remaining segments begin at different positions depending on the categories below them. This makes it harder to compare categories that are not aligned to the same starting point.
+
+For example, if a reader wants to compare the share of coal, electricity, or bioenergy across several countries, they must visually estimate segment lengths from different starting positions. This makes the chart useful for a general overview, but less effective for precise cross-country comparison.
+
+The chart also contains many countries and categories. Even though the original ordering provides regional context, it may not support every analytical question. If the goal is to compare fossil fuel reliance, electricity share, or industrial energy demand, sorting countries by a relevant metric would make the pattern clearer.
+
+## 2.3 Visual Design and Accessibility
+
+The chart relies heavily on colour to distinguish categories. This is necessary for a stacked composition chart, but it also creates visual complexity. When many colours are used in a small space, the chart becomes harder to read, especially if some colours are visually similar or if the reader has colour vision deficiencies.
+
+The legend also requires frequent back-and-forth reading. Readers must look at the segment colour, check the legend, return to the chart, and then compare the segment across countries. This slows down interpretation and reduces the chart’s ability to communicate key insights quickly.
+
+Finally, the chart has limited annotation. It shows many patterns, but it does not guide the reader toward the most important ones. For a report or presentation, the visualization would be stronger if it included clearer labels, short callouts, or a sorted structure that highlights the main story.
+
+## 2.4 Summary of Critique
+
+```{r}
+#| label: tbl-original-critique
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tibble)
+library(knitr)
+
+critique_summary <- tribble(
+  ~Evaluation_Area, ~Issue_in_Original_Chart, ~Why_It_Matters,
+
+  "Clarity",
+  "Fuel mix and end-use sector are shown side by side, but they represent different analytical dimensions.",
+  "Readers must switch between two category systems, increasing cognitive load.",
+
+  "Scale Context",
+  "The chart uses percentages normalised to 100% for each country and panel.",
+  "This supports composition comparison, but hides absolute energy consumption differences between countries.",
+
+  "Comparability",
+  "Stacked segments do not all share a common baseline.",
+  "It is difficult to accurately compare non-baseline categories such as coal, electricity, or bioenergy across countries.",
+
+  "Ordering",
+  "Countries are not ordered by a specific composition metric such as fossil fuel share or electricity share.",
+  "This makes some analytical comparisons harder to identify quickly.",
+
+  "Colour and Legend",
+  "The chart uses many colours across fuel and sector categories.",
+  "Heavy reliance on colour and legend-reading slows interpretation and may reduce accessibility.",
+
+  "Storytelling",
+  "The chart presents many values but has limited annotations or callouts.",
+  "Readers are not guided toward the most important insights or unusual country patterns."
+)
+
+knitr::kable(
+  critique_summary,
+  caption = "Summary of key limitations in the original IEA visualization.",
+  align = "l"
+)
+```
+
+Overall, the original visualization works well as a compact regional overview, but it is less effective as an analytical comparison tool. Its main weakness is not the data itself, but the amount of visual work required from the reader. Our redesign should therefore focus on reducing cognitive load, improving cross-country comparability, and making the main energy patterns easier to identify.
+
+-----------------------------------------------------------------------
+# 3. Proposed Improvements
+
+Based on the critique above, our proposed redesign aims to preserve the original chart’s regional comparison purpose while making the visualization clearer, more accessible, and more useful for analysis.
+
+The guiding question for our redesign is:
+
+> **How do Southeast Asian countries differ in what energy they consume, and where that energy is ultimately used?**
+
+Instead of simply making the original chart look more attractive, our improvements focus on helping the reader compare countries more accurately and understand the main energy patterns more quickly.
+
+## 3.1 Summary of Proposed Improvements
+
+```{r}
+#| label: tbl-proposed-improvements
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tibble)
+library(knitr)
+
+proposed_improvements <- tribble(
+  ~ID, ~Weakness_Addressed, ~Proposed_Improvement, ~Method_or_Technique,
+
+  "I1",
+  "Country labels and stacked segments are difficult to read in the original layout.",
+  "Redesign the chart as horizontal 100% stacked bars so country names are easier to read and cross-country scanning becomes more natural.",
+  "Use ggplot2::geom_col() with countries on the y-axis and percentage share on the x-axis.",
+
+  "I2",
+  "Fuel mix and end-use sector are conceptually different but visually placed very close together.",
+  "Keep the two-panel structure, but clearly separate the figure into Fuel Mix and End-use Sector panels.",
+  "Use facet_wrap(~ Panel) or patchwork to create aligned small multiples.",
+
+  "I3",
+  "The original chart uses many colours, which increases visual noise.",
+  "Apply a more controlled and colourblind-safe palette so categories remain distinguishable.",
+  "Use scale_fill_brewer(), scale_fill_viridis_d(), or a manually defined accessible palette.",
+
+  "I4",
+  "The original chart does not guide the reader toward the main findings.",
+  "Add short annotations for important patterns, such as high oil dependence, high electricity share, or dominant industry demand.",
+  "Use geom_text(), geom_label(), or annotate() for selected insights.",
+
+  "I5",
+  "The country ordering does not directly support all analytical comparisons.",
+  "Sort countries by a meaningful metric depending on the story focus, such as fossil fuel share, electricity share, or industry share.",
+  "Use forcats::fct_reorder() after calculating derived metrics.",
+
+  "I6",
+  "Exact values are difficult to read from the original static chart.",
+  "Add percentage labels only for dominant categories or values above a selected threshold.",
+  "Use conditional labels with if_else(Percentage >= threshold, label, '').",
+
+  "I7",
+  "The original visual does not clearly communicate the data limitation in our working dataset.",
+  "Add a clear caption explaining that our dataset is a structurally faithful synthetic proxy based on the original IEA chart.",
+  "Use a formal Quarto figure caption and data note.",
+
+  "I8",
+  "The original chart is mostly descriptive and does not directly support deeper analysis.",
+  "Create derived metrics such as fossil fuel share, electricity share, and sector concentration.",
+  "Use dplyr::group_by(), summarise(), and mutate()."
+)
+
+knitr::kable(
+  proposed_improvements,
+  caption = "Proposed improvements mapped to weaknesses in the original visualization.",
+  align = "l"
+)
+```
+
+## 3.2 Redesign Direction
+
+Our main redesign will use a **horizontal two-panel 100% stacked bar chart**. The left panel will show each country’s fuel mix, while the right panel will show each country’s end-use sector mix.
+
+This keeps the strongest idea of the original visualization: comparing countries across both energy source and energy use. However, placing countries on the y-axis improves readability because country names no longer need to be rotated or squeezed under the chart.
+
+The two-panel structure also makes the logic clearer:
+
+* **Fuel Mix** answers: *What type of energy is consumed?*
+* **End-use Sector** answers: *Where is energy used?*
+
+This makes the chart easier to interpret while still preserving the original report’s regional comparison purpose.
+
+## 3.3 Sorting and Comparison
+
+The original chart is useful for giving a broad regional overview, but different research questions require different ordering. In our redesign, we propose sorting countries based on the analytical story being told.
+
+For example:
+
+* If the story is about fossil fuel dependence, countries can be sorted by fossil fuel share.
+* If the story is about electrification, countries can be sorted by electricity share.
+* If the story is about industrial energy demand, countries can be sorted by industry share.
+
+This turns the chart from a static overview into a more analytical comparison. The ordering itself helps reveal the pattern.
+
+## 3.4 Colour and Accessibility
+
+The original visualization uses many colours across two panels, which makes the chart visually busy. Our redesign will use a more controlled colour strategy.
+
+Fuel categories and sector categories should remain visually distinct. Colours should also be readable for users with colour vision deficiencies. This is important because colour is the main encoding method in a stacked composition chart. If colours are difficult to distinguish, the chart becomes harder to understand even if the data is accurate.
+
+## 3.5 Labels and Annotations
+
+The original chart requires readers to estimate most values visually. Our improved version will include selective percentage labels, but only where they help the reader.
+
+Labelling every segment would create clutter. Instead, we will label only dominant categories or values above a selected threshold. This keeps the chart clean while still showing the most important numbers.
+
+We also propose adding short annotations for key patterns, such as:
+
+* Countries with high oil dependence
+* Countries with high electricity share
+* Countries where industry dominates final energy use
+* Countries with a more diversified fuel mix
+
+These annotations help the visualization tell a clearer story instead of leaving the reader to decode every detail independently.
+
+## 3.6 Analytical Metrics
+
+To support deeper analysis, we will create derived metrics from the cleaned dataset.
+
+```{r}
+#| label: derived-metrics-plan
+#| echo: true
+#| eval: false
+
+library(tidyverse)
+library(here)
+
+energy_clean <- readr::read_csv(here::here("data", "energy_data_clean.csv"))
+
+fuel_metrics <- energy_clean |>
+  filter(Panel == "Fuels") |>
+  mutate(
+    fossil_group = Fuel_Type %in% c("Oil", "Coal", "Natural gas"),
+    low_carbon_group = Fuel_Type %in% c("Electricity", "Bioenergy", "Other fuels")
+  ) |>
+  group_by(Country) |>
+  summarise(
+    fossil_fuel_share = sum(Percentage[fossil_group], na.rm = TRUE),
+    low_carbon_share = sum(Percentage[low_carbon_group], na.rm = TRUE),
+    electricity_share = sum(Percentage[Fuel_Type == "Electricity"], na.rm = TRUE),
+    .groups = "drop"
+  )
+
+sector_metrics <- energy_clean |>
+  filter(Panel == "Sector") |>
+  group_by(Country) |>
+  summarise(
+    industry_share = sum(Percentage[End_Use_Sector == "Industry"], na.rm = TRUE),
+    transport_share = sum(Percentage[End_Use_Sector == "Transport"], na.rm = TRUE),
+    buildings_share = sum(Percentage[End_Use_Sector == "Buildings"], na.rm = TRUE),
+    .groups = "drop"
+  )
+
+energy_metrics <- fuel_metrics |>
+  left_join(sector_metrics, by = "Country")
+```
+
+These derived metrics allow the final report to answer stronger analytical questions:
+
+* Which countries are most dependent on fossil fuels?
+* Which countries show higher electricity use?
+* Which countries have energy demand mainly driven by industry?
+* Are fuel-mix differences linked to sector-demand differences?
+
+This strengthens the project because the improved visualization is not only more readable, but also supports evidence-based interpretation.
+
+## 3.7 Planned Visualization Code
+
+```{r}
+#| label: improved-visualization-plan
+#| echo: true
+#| eval: false
+
+library(tidyverse)
+library(ggplot2)
+library(forcats)
+library(here)
+
+energy_clean <- readr::read_csv(here::here("data", "energy_data_clean.csv"))
+
+plot_data <- energy_clean |>
+  mutate(
+    Category = if_else(
+      Panel == "Fuels",
+      Fuel_Type,
+      End_Use_Sector
+    )
+  )
+
+ggplot(
+  plot_data,
+  aes(
+    x = Percentage,
+    y = fct_reorder(Country, Percentage, .fun = sum),
+    fill = Category
+  )
+) +
+  geom_col(width = 0.75) +
+  facet_wrap(~ Panel, ncol = 2) +
+  scale_x_continuous(
+    labels = scales::percent_format(scale = 1),
+    limits = c(0, 100)
+  ) +
+  labs(
+    title = "Southeast Asia’s final energy consumption mix differs sharply by country",
+    subtitle = "Fuel mix and end-use sector composition, 2024",
+    x = "Share of final energy consumption (%)",
+    y = NULL,
+    fill = "Category",
+    caption = "Data note: Based on a structurally faithful synthetic dataset proxying the original IEA visualization. Original source: IEA Southeast Asia Energy Outlook 2026."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.y = element_blank(),
+    strip.text = element_text(face = "bold")
+  )
+```
+
+## 3.8 Static and Interactive Output
+
+Our main output will be a clean static figure that works well in the final report and presentation. This is important because the visualization must still be understandable as a screenshot.
+
+If time allows, we can also create an interactive version using `plotly`. The interactive version would allow users to hover over each segment to view the country, category, panel, and exact percentage. This avoids overcrowding the static chart with too many labels.
+
+## 3.9 Strengths Preserved from the Original
+
+Although we are redesigning the chart, we preserve several strengths of the original visualization.
+
+First, we keep the **single-figure regional comparison**. The final output will not become a disconnected dashboard. It will remain one coordinated visualization.
+
+Second, we keep the **dual analytical lens** of the original: fuel mix and end-use sector demand. Fuel mix alone does not explain where energy is used, while sector composition alone does not explain what types of energy dominate.
+
+Third, we keep the **100% composition structure** because the key story is about relative energy mix rather than absolute consumption volume. Since our working dataset is normalised to 100% per country per panel, a proportional design is suitable and transparent.
+
+## 3.10 Summary
+
+Overall, our proposed improvements turn the original chart from a dense stacked comparison into a clearer visual argument. The redesigned chart will help viewers quickly compare Southeast Asian countries, identify differences in fuel reliance, and understand how energy demand is distributed across sectors. The added derived metrics will also support stronger analysis in later sections of the project.
+------------------------------------------------------------------------
+
+# 4. Data Overview & Quality
+
+## 4.1 Raw Data Structure 1
 
 The first data source does not follow a simple rectangular table structure. It uses a **multi-block layout** where each category occupies a separate vertical block of rows, preceded by several metadata rows. The structure is generally as follows:
 
@@ -77,7 +402,7 @@ The first data source does not follow a simple rectangular table structure. It u
 
 \[Insert specific details about how the first data source is formatted and how it should be parsed.\]
 
-## 2.2 Raw Data Structure 2
+## 4.2 Raw Data Structure 2
 
 The second data source follows a similar multi-block convention but introduces additional complexity: the **sub-categories appear as column headers** (rather than rows), making it a two-dimensional table within each primary block.
 
@@ -87,7 +412,7 @@ The second data source follows a similar multi-block convention but introduces a
 
 \[Insert specific details about how the second data source is formatted.\]
 
-## 2.3 Identified Data Quality Challenges
+## 4.3 Identified Data Quality Challenges
 
 Below is a summary of the data quality challenges identified during the initial data inspection, along with the planned mitigation strategies.
 
@@ -99,9 +424,9 @@ Below is a summary of the data quality challenges identified during the initial 
 
 ------------------------------------------------------------------------
 
-# 3. Data Pipeline & Reproducibility
+# 5. Data Pipeline & Reproducibility
 
-## 3.1 Illustrative Code Structure
+## 5.1 Illustrative Code Structure
 
 The final pipeline code will follow the structure below. This demonstrates the planned function signatures and data flow.
 
@@ -126,7 +451,7 @@ The final pipeline code will follow the structure below. This demonstrates the p
 # Insert plotting code here
 ```
 
-## 3.2 Reproducibility Considerations
+## 5.2 Reproducibility Considerations
 
 To ensure the project is fully reproducible, the following standards are implemented:
 
@@ -137,30 +462,30 @@ To ensure the project is fully reproducible, the following standards are impleme
 
 ------------------------------------------------------------------------
 
-# 4. Data Analysis Plan
+# 6. Data Analysis Plan
 
 \[Insert the step-by-step methodology for the data analysis. This should include:\] 1. **\[Step 1 Name\]:** \[Description of the first analytical step\] 2. **\[Step 2 Name\]:** \[Description of the second analytical step\] 3. **\[Step 3 Name\]:** \[Description of the third analytical step\]
 
 ------------------------------------------------------------------------
 
-# 5. References & Sources
+# 7. References & Sources
 
-## 5.1 Article Source
+## 7.1 Article Source
 
 - \[Author/Organization\]. (\[Year\]). *\[Article Title\]*. Retrieved from \[URL\]
 
-## 5.2 Data Sources
+## 7.2 Data Sources
 
 - \[Dataset Name 1\], \[Publisher/Source\], \[Year\].
 - \[Dataset Name 2\], \[Publisher/Source\], \[Year\].
 
-## 5.3 Design Reference
+## 7.3 Design Reference
 
 - \[Reference to any design inspiration, color palettes (e.g., colorblind-safe palettes), or UI/UX guidelines used in the project\].
 
 ------------------------------------------------------------------------
 
-# 6. Appendix: Data Dictionary
+# 8. Appendix: Data Dictionary
 
 | Column | Data Type | Source | Unit / Range | Role in Analysis |
 |----|----|----|----|----|
