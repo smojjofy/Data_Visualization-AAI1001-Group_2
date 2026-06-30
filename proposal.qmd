@@ -63,29 +63,39 @@ The visualization dismantles the notion of a monolithic Southeast Asian energy l
 4. **The Exogenous Shock Vulnerability Matrix:** By reading the panels in parallel, the visualization tells a story of systemic risk. Nations displaying a simultaneous combination of high oil dependence (left) and massive transport/building sector exposure (right) are revealed to be highly vulnerable to external supply chain disruptions. Because their energy is spent on daily domestic survival and basic mobility rather than flexible industrial output, global energy price shocks translate directly into immediate domestic cost-of-living inflation.
 
 
-------------------------------------------------------------------------
+---------------------------------------------------------------------------
 
 # 2. Data Overview & Quality
 
-## 2.1 Raw Data Structure 1
+## 2.1 Data Source and Extraction Method
 
-The first data source does not follow a simple rectangular table structure. It uses a **multi-block layout** where each category occupies a separate vertical block of rows, preceded by several metadata rows. The structure is generally as follows:
+Unlike a typical multi-block spreadsheet export, our data does not originate from a downloadable workbook. It is derived from a single published chart in the International Energy Agency's **Southeast Asia Energy Outlook 2026** report:
 
-- **Rows 1-6:** Metadata and headers (to be skipped)
-- **Row 7:** Column headers / Year markers
-- **Rows 8+:** Data blocks separated by category headers
+**Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024**
+IEA (2026), Paris. https://www.iea.org/data-and-statistics/charts/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024, Licence: CC BY 4.0
 
-\[Insert specific details about how the first data source is formatted and how it should be parsed.\]
+The chart's own download page explicitly states: *"The data from this chart is not available for download."* Only a chart image (a set of stacked bars, one per country, split by fuel and by end-use sector) is published — there is no underlying machine-readable table to parse. Because of this, the values in `energy_data.csv` were **visually estimated by our team from the published chart**, not scraped or downloaded as exact published figures. This is a deliberate methodological choice given the constraint, not an extraction error, and it is the single most important caveat for this section: **every percentage in our dataset is an approximation, not an official IEA statistic.**
 
-## 2.2 Raw Data Structure 2
+Extraction process:
 
-The second data source follows a similar multi-block convention but introduces additional complexity: the **sub-categories appear as column headers** (rather than rows), making it a two-dimensional table within each primary block.
+- Each country's stacked bar was read visually and each segment's length converted to a percentage, rounded to the nearest 0.5 percentage point (the level of precision visually distinguishable on the published chart).
+- Segments were cross-checked to sum to 100% within each country × dimension before being accepted, to catch misreads.
+- The chart covers two dimensions per country — fuel mix and end-use sector mix — both of which we captured.
 
-- **Rows 1-6:** Metadata and headers (to be skipped)
-- **Row 7:** Sub-category column headers
-- **Rows 8+:** Data blocks separated by primary category headers
+## 2.2 Resulting Dataset Structure
 
-\[Insert specific details about how the second data source is formatted.\]
+Because there is no raw spreadsheet to document the layout of, the "raw" file we work with *is* the tidy CSV produced by the extraction step above. Its structure is already long-format and rectangular:
+
+| Column | Type | Description |
+|---|---|---|
+| `Country` | character | One of 10 ASEAN countries covered by the chart |
+| `Dimension` | character | `"Fuel"` or `"Sector"` — which breakdown the row belongs to |
+| `Category` | character | The specific fuel (e.g. Oil, Coal) or sector (e.g. Industry, Transport) |
+| `Percentage` | double | Estimated share of total final consumption, 0–100 |
+
+There are no metadata rows, no merged headers, and no block separators to skip — `read_csv()` with default settings parses it correctly. The structural complexity in this dataset sits in the *estimation* that produced it, not in its file layout.
+
+\[Insert a short note here on which 10 countries are included, and confirm whether your team plans to keep Dimension long, or pivot Fuel and Sector into separate wide tables for plotting — this affects what your Section 3 analysis code expects as input.\]
 
 ## 2.3 Identified Data Quality Challenges
 
@@ -93,11 +103,13 @@ Below is a summary of the data quality challenges identified during the initial 
 
 | ID | Issue Description | Severity | Planned Decision / Mitigation |
 |----|----|----|----|
-| **C1** | \[Describe challenge 1, e.g., missing column markers\] | High | \[Describe mitigation, e.g., Extract blocks independently using known start rows\] |
-| **C2** | \[Describe challenge 2, e.g., inconsistent date formats\] | Medium | \[Describe mitigation, e.g., Standardize using `lubridate`\] |
-| **C3** | \[Describe challenge 3, e.g., hidden aggregate rows\] | Low | \[Describe mitigation, e.g., Filter out rows containing 'Total' in label column\] |
+| **C1** | Values are visually estimated from a chart rather than sourced from an exact published table. Estimation/reading error of roughly ±1–2 percentage points per segment is possible, and this is irreducible given the source constraint. | High | Disclose explicitly in the report as a stated limitation. Retain rounding to the nearest 0.5 pp for consistency, and validate that every country's segments sum to 100% per dimension (already confirmed in our extracted data) as a sanity check rather than a guarantee of accuracy. |
+| **C2** | The fuel-mix category set is not consistent across countries: Thailand includes an "Other Fuels" category (1.0%) that no other country has a nonzero value for. This reflects the source chart's shared legend, where small segments are likely omitted from display for most countries rather than genuinely absent. | Medium | Treat "Other Fuels" as a valid category for all 10 countries, explicitly filling in 0 for countries where it doesn't currently appear, before pivoting to wide format. Document this assumption in code comments. |
+| **C3** | The dataset is a single cross-sectional snapshot (2024 only). No time-series comparison is possible from this source alone. | Medium | Scope the analysis explicitly to a 2024 cross-country comparison; do not attempt trend claims from this dataset. If trend analysis is later required, a second dataset (e.g. the 2015 comparison shown elsewhere in the same IEA report) would need to be separately extracted. |
+| **C4** | Timor-Leste, ASEAN's newest member, is absent from the dataset. | Low | Not an extraction error — the source chart's own notes state data is unavailable for Timor-Leste. State this explicitly in the report so it reads as a documented source limitation rather than an oversight. |
+| **C5** | Country naming follows IEA's exact chart conventions (e.g. "Lao DPR", "Viet Nam" with a space, "Brunei Darussalam" in full), which may not match the conventions used by other datasets if joined later. | Low | Keep IEA's naming as the canonical form for this proposal. If a second dataset is joined in a later phase, standardize both to a single lookup table (e.g. ISO-3 country codes) at that point. |
 
-------------------------------------------------------------------------
+---------------------------------------------------------------------------
 
 # 3. Data Pipeline & Reproducibility
 
