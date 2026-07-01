@@ -1,91 +1,91 @@
 Country,Dimension,Category,Percentage
 Indonesia,Fuel,Oil,40.0
-Indonesia,Fuel,Natural Gas,12.0
-Indonesia,Fuel,Coal,13.0
-Indonesia,Fuel,Bioenergy,23.0
-Indonesia,Fuel,Electricity,12.0
+Indonesia,Fuel,Natural Gas,13.0
+Indonesia,Fuel,Coal,12.0
+Indonesia,Fuel,Bioenergy,12.0
+Indonesia,Fuel,Electricity,23.0
 Indonesia,Sector,Industry,45.5
 Indonesia,Sector,Transport,33.5
 Indonesia,Sector,Buildings,19.0
 Indonesia,Sector,Other,2.0
 Thailand,Fuel,Oil,55.5
-Thailand,Fuel,Natural Gas,6.0
-Thailand,Fuel,Coal,7.0
-Thailand,Fuel,Bioenergy,18.5
-Thailand,Fuel,Electricity,12.0
+Thailand,Fuel,Natural Gas,7.0
+Thailand,Fuel,Coal,6.0
+Thailand,Fuel,Bioenergy,12.0 
+Thailand,Fuel,Electricity,18.5
 Thailand,Fuel,Other Fuels,1.0
 Thailand,Sector,Industry,29.0
 Thailand,Sector,Transport,29.0
 Thailand,Sector,Buildings,15.0
 Thailand,Sector,Other,27.0
 Viet Nam,Fuel,Oil,36.0
-Viet Nam,Fuel,Natural Gas,24.0
-Viet Nam,Fuel,Coal,2.0
-Viet Nam,Fuel,Bioenergy,29.5
-Viet Nam,Fuel,Electricity,8.5
+Viet Nam,Fuel,Natural Gas,2.0
+Viet Nam,Fuel,Coal,24.0
+Viet Nam,Fuel,Bioenergy,8.5
+Viet Nam,Fuel,Electricity,29.5
 Viet Nam,Sector,Industry,50.0
 Viet Nam,Sector,Transport,23.0
 Viet Nam,Sector,Buildings,16.0
 Viet Nam,Sector,Other,11.0
 Malaysia,Fuel,Oil,47.5
-Malaysia,Fuel,Natural Gas,2.0
-Malaysia,Fuel,Coal,24.0
-Malaysia,Fuel,Bioenergy,24.5
-Malaysia,Fuel,Electricity,2.0
+Malaysia,Fuel,Natural Gas,24.0
+Malaysia,Fuel,Coal,2.0
+Malaysia,Fuel,Bioenergy,2.0
+Malaysia,Fuel,Electricity,24.5
 Malaysia,Sector,Industry,32.0
 Malaysia,Sector,Transport,39.0
 Malaysia,Sector,Buildings,15.0
 Malaysia,Sector,Other,14.0
 Philippines,Fuel,Oil,51.5
-Philippines,Fuel,Natural Gas,6.0
-Philippines,Fuel,Coal,0.5
-Philippines,Fuel,Bioenergy,22.0
-Philippines,Fuel,Electricity,20.0
+Philippines,Fuel,Natural Gas,0.5
+Philippines,Fuel,Coal,6.0
+Philippines,Fuel,Bioenergy,20.0
+Philippines,Fuel,Electricity,22.0
 Philippines,Sector,Industry,19.0
 Philippines,Sector,Transport,34.5
 Philippines,Sector,Buildings,40.5
 Philippines,Sector,Other,6.0
 Myanmar,Fuel,Oil,28.5
-Myanmar,Fuel,Natural Gas,4.0
-Myanmar,Fuel,Coal,2.0
-Myanmar,Fuel,Bioenergy,8.0
-Myanmar,Fuel,Electricity,57.5
+Myanmar,Fuel,Natural Gas,2.0
+Myanmar,Fuel,Coal,4.0
+Myanmar,Fuel,Bioenergy,57.5
+Myanmar,Fuel,Electricity,8.0
 Myanmar,Sector,Industry,11.0
 Myanmar,Sector,Transport,22.5
 Myanmar,Sector,Buildings,61.5
 Myanmar,Sector,Other,5.0
 Singapore,Fuel,Oil,66.0
-Singapore,Fuel,Natural Gas,0.5
-Singapore,Fuel,Coal,7.0
-Singapore,Fuel,Bioenergy,0.5
-Singapore,Fuel,Electricity,26.0
+Singapore,Fuel,Natural Gas,7.0
+Singapore,Fuel,Coal,0.5
+Singapore,Fuel,Bioenergy,26.0
+Singapore,Fuel,Electricity,0.5
 Singapore,Sector,Industry,38.0
 Singapore,Sector,Transport,11.5
 Singapore,Sector,Buildings,17.0
 Singapore,Sector,Other,33.5
 Cambodia,Fuel,Oil,44.0
-Cambodia,Fuel,Natural Gas,6.0
-Cambodia,Fuel,Coal,0.5
-Cambodia,Fuel,Bioenergy,18.5
-Cambodia,Fuel,Electricity,31.0
+Cambodia,Fuel,Natural Gas,0.5
+Cambodia,Fuel,Coal,6.0
+Cambodia,Fuel,Bioenergy,31.0
+Cambodia,Fuel,Electricity,18.5
 Cambodia,Sector,Industry,33.0
 Cambodia,Sector,Transport,31.0
 Cambodia,Sector,Buildings,30.0
 Cambodia,Sector,Other,6.0
 Lao DPR,Fuel,Oil,25.0
-Lao DPR,Fuel,Natural Gas,10.0
-Lao DPR,Fuel,Coal,0.5
-Lao DPR,Fuel,Bioenergy,26.0
-Lao DPR,Fuel,Electricity,38.5
+Lao DPR,Fuel,Natural Gas,0.5
+Lao DPR,Fuel,Coal,10.0
+Lao DPR,Fuel,Bioenergy,38.5
+Lao DPR,Fuel,Electricity,26.0
 Lao DPR,Sector,Industry,33.5
 Lao DPR,Sector,Transport,23.0
 Lao DPR,Sector,Buildings,42.5
 Lao DPR,Sector,Other,1.0
 Brunei Darussalam,Fuel,Oil,47.0
-Brunei Darussalam,Fuel,Natural Gas,0.5
-Brunei Darussalam,Fuel,Coal,25.5
-Brunei Darussalam,Fuel,Bioenergy,0.5
-Brunei Darussalam,Fuel,Electricity,26.5
+Brunei Darussalam,Fuel,Natural Gas,25.5
+Brunei Darussalam,Fuel,Coal,0.5
+Brunei Darussalam,Fuel,Bioenergy,26.5
+Brunei Darussalam,Fuel,Electricity,0.5
 Brunei Darussalam,Sector,Industry,22.0
 Brunei Darussalam,Sector,Transport,31.0
 Brunei Darussalam,Sector,Buildings,21.0
