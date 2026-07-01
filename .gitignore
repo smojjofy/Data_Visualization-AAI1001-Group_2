@@ -11,3 +11,5 @@ proposal_files/
 _quarto.yml
 scripts/
 index.qmd
+/.quarto/
+**/*.quarto_ipynb

@@ -38,129 +38,494 @@ The original visualization/data was sourced from **International Energy Agency**
 
 Source: International Energy Agency, *Southeast Asia Energy Outlook 2026*, June 2026.
 
-### 1.2.1 Original Chart's Structure & Design
-The visualization under review is a dual-panel, 100% stacked column chart titled “Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024”. The graphic functions as a comparative profile matrix, mapping the Total Final Consumption (TFC) of energy across the ten ASEAN member states. It breaks down the region's energy architecture simultaneously across three core dimensions:
+### 1.2.1 Visualization Structure and Design
 
-- Geographic Entity (X-Axis): Ten Southeast Asian nations arranged in an identical left-to-right sequence across both panels to facilitate parallel visual scanning.
+The visualization selected is a dual-panel, 100% stacked column chart titled **“Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024”**. The graphic functions as a regional comparative matrix, mapping the Total Final Consumption (TFC) of energy across the ten ASEAN member states. Nominally, the chart attempts to illustrate the region's energy architecture simultaneously across three core dimensions:
 
-- Energy Supply Portfolio (Left Panel - "Fuels"): Compares the relative share of primary energy carriers fueling each economy, including Oil, Natural Gas, Coal, Bioenergy, and Electricity.
+* **Geographic Entity (X-Axis):** Ten Southeast Asian nations arranged in an identical left-to-right sequence across both panels to facilitate parallel visual scanning.
+* **Energy Supply Portfolio (Left Panel - "Fuels"):** Displays the relative percentage share of primary energy carriers fueling each economy.
+* **Sectoral Demand Profile (Right Panel - "Sector"):** Tracks the percentage distribution of final energy consumption across functional economic sectors.
 
-- Sectoral Demand Profile (Right Panel - "Sector"): Tracks the final destination of that consumed energy across functional economic sectors, categorized into Industry, Transport, Buildings, and Other.
+The chart is structurally divided into two horizontally juxtaposed panels sharing a unified vertical scale (0% to 100%). However, the immediate and most glaring design flaw of this visualization is the **complete absence of an on-chart legend or keymap**. While the vertical columns are neatly segmented into distinct color blocks, the graphic itself provides no native mechanism to decode what specific energy source or sectoral demand each color represents.
 
-The chart is divided into two distinct, horizontally juxtaposed panels sharing a unified vertical scale (0% to 100%). This layout relies on normalized part-to-whole configurations rather than absolute volumetric measurements.
+Consequently, the identification of the specific data categories utilized in this study—such as mapping the left panel's color bands to *Oil, Natural Gas, Coal, Bioenergy, and Electricity*, and the right panel's bands to *Industry, Transport, Buildings, and Other*—was only made possible by extracting supplementary data tables, text descriptions, and interactive metadata embedded deeper within the parent IEA report source.
 
-By scaling all bars to an equal 100% height, the design prioritizes structural composition over absolute scale. This allows the viewer to evaluate the systemic "DNA" of each country's energy economy, regardless of whether they are comparing a massive market like Indonesia to a smaller one like Brunei.
+By normalizing all columns to a uniform 100% height, the structural design prioritizes part-to-whole composition over absolute volumetric scale. This allows for a direct comparison of the fundamental energy "DNA" of highly diverse economies across a shared baseline, provided the viewer leverages external report documentation to overcome the chart's native legibility bottleneck.
 
-### 1.2.2 The Story it Tells
-The visualization dismantles the notion of a monolithic Southeast Asian energy landscape, illustrating instead a region sharply divided by economic maturity, urban density, and industrial architecture. Several distinct narratives emerge from the structural composition of the bars:
+### 1.2.2 The Story It Tells
 
-1. **The Shared Anchor of Petroleum:** Across almost all ASEAN nations, Oil (represented by the dominant coral base on the left panel) serves as the single largest bedrock fuel. This visual weight directly correlates with the Transport sector (orange blocks on the right panel), showing that despite varying levels of economic development, the region remains locked into liquid fossil fuel dependency to move goods and people.
+Despite the structural bottleneck caused by the missing on-chart legend, the underlying data framework remains a highly effective narrative tool when contextualized within the broader scope of the publication. By pairing this visualization with the surrounding report analysis and metadata, the IEA successfully leverages this dual-panel composition to tell a cohesive story of how energy types, costs, and demand vectors are structurally distributed across Southeast Asia. When decoded, the chart effectively dismantles the notion of a uniform regional energy market, revealing a landscape defined by sharp macroeconomic variations. Several distinct narratives emerge from the part-to-whole composition of the columns:
 
-2. **The Agrarian-to-Urban Development Divide:** A stark contrast appears when tracking Bioenergy (teal bands) against Electricity (light blue bands). Developing or resource-rich continental economies like Viet Nam, Cambodia, and Lao DPR display large blocks of bioenergy, often used for traditional building or residential heating and cooking. Conversely, highly urbanized, industrialized, or island economies like Singapore, Malaysia, and Brunei show virtually zero bioenergy reliance, replacing it entirely with centralized Electricity and Natural Gas.
-
-3. **Diverse Sectoral Engines:** The right panel exposes fundamentally different economic drivers across the region. Viet Nam and Indonesia stand out as industrial heavyweights, with their yellow "Industry" bars consuming nearly half of their total energy footprint. In contrast, Myanmar exhibits a building-centric profile, where its massive green block reveals that the residential and commercial building footprint dwarfs its industrial and transport sectors combined.
-
+1. **The Shared Anchor of Petroleum:** Across almost all ASEAN nations, **Oil (represented by the dominant red base on the left panel)** serves as the single largest bedrock fuel. This visual weight directly correlates with the **Transport sector (orange blocks on the right panel)**, showing that despite varying levels of economic development, the region remains locked into liquid fossil fuel dependency to move goods and people.
+2. **The Agrarian-to-Urban Development Divide:** A stark contrast appears when tracking **Bioenergy (teal bands)** against **Electricity (light blue bands)**. Developing or resource-rich continental economies display large blocks of bioenergy, often used for traditional building or residential heating and cooking. Conversely, highly urbanized, industrialized, or island economies show virtually zero bioenergy reliance, replacing it entirely with centralized Electricity and Natural Gas.
+3. **Diverse Sectoral Engines:** The right panel exposes fundamentally different economic drivers across the region. Certain nations stand out as industrial heavyweights, with their yellow "Industry" bars consuming nearly half of their total energy footprint. In contrast, other member states exhibit building-centric profiles, where massive green blocks reveal that the residential and commercial building footprint dwarfs the industrial and transport sectors combined.
 4. **The Exogenous Shock Vulnerability Matrix:** By reading the panels in parallel, the visualization tells a story of systemic risk. Nations displaying a simultaneous combination of high oil dependence (left) and massive transport/building sector exposure (right) are revealed to be highly vulnerable to external supply chain disruptions. Because their energy is spent on daily domestic survival and basic mobility rather than flexible industrial output, global energy price shocks translate directly into immediate domestic cost-of-living inflation.
 
 
+--------------------------------------------------------------------------
+
+# 2. Critical Analysis of Original Visualization
+
+The original IEA visualization, *Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024*, provides a compact overview of how energy consumption differs across Southeast Asian countries. Its main strength is that it compares two related dimensions in one figure: the **fuel mix** of each country and the **end-use sector** where energy is consumed.
+
+However, the chart also has several limitations. While it works well as a broad regional overview, it is less effective for detailed comparison. The critique below focuses on three main areas: clarity, comparability, and visual design.
+
+## 2.1 Clarity and Cognitive Load
+
+The chart attempts to show two different analytical dimensions at the same time.
+
+The fuel panel answers the question: **what type of energy is consumed?** This includes categories such as oil, coal, natural gas, bioenergy, electricity, and other fuels.
+
+The sector panel answers a different question: **where is energy used?** This includes categories such as industry, transport, buildings, and other uses.
+
+Although these two dimensions are related, they are not the same. Placing them side by side in one dense visual forces the reader to switch between two different category systems. This increases cognitive load, especially for readers who are not already familiar with energy terminology.
+
+Another limitation is that the chart is based on percentage shares. This is useful for comparing composition, but it does not show the absolute volume of energy consumed by each country. As a result, a large energy consumer and a smaller energy consumer are given equal visual weight. This makes the chart effective for showing relative mix, but weaker for communicating the overall scale of regional energy demand.
+
+## 2.2 Comparability Challenges
+
+The stacked bar format makes some comparisons difficult. In a stacked bar chart, only the first segment starts from a common baseline. The remaining segments begin at different positions depending on the categories below them. This makes it harder to compare categories that are not aligned to the same starting point.
+
+For example, if a reader wants to compare the share of coal, electricity, or bioenergy across several countries, they must visually estimate segment lengths from different starting positions. This makes the chart useful for a general overview, but less effective for precise cross-country comparison.
+
+The chart also contains many countries and categories. Even though the original ordering provides regional context, it may not support every analytical question. If the goal is to compare fossil fuel reliance, electricity share, or industrial energy demand, sorting countries by a relevant metric would make the pattern clearer.
+
+## 2.3 Visual Design and Accessibility
+
+The chart relies heavily on colour to distinguish categories. This is necessary for a stacked composition chart, but it also creates visual complexity. When many colours are used in a small space, the chart becomes harder to read, especially if some colours are visually similar or if the reader has colour vision deficiencies.
+
+The legend also requires frequent back-and-forth reading. Readers must look at the segment colour, check the legend, return to the chart, and then compare the segment across countries. This slows down interpretation and reduces the chart’s ability to communicate key insights quickly.
+
+Finally, the chart has limited annotation. It shows many patterns, but it does not guide the reader toward the most important ones. For a report or presentation, the visualization would be stronger if it included clearer labels, short callouts, or a sorted structure that highlights the main story.
+
+## 2.4 Summary of Critique
+
+| Evaluation Area | Issue in Original Chart | Why It Matters |
+|---|---|---|
+| Clarity | Fuel mix and end-use sector are shown side by side, but they represent different analytical dimensions. | Readers must switch between two category systems, increasing cognitive load. |
+| Scale Context | The chart uses percentages normalised to 100% for each country and panel. | This supports composition comparison, but hides absolute energy consumption differences between countries. |
+| Comparability | Stacked segments do not all share a common baseline. | It is difficult to accurately compare non-baseline categories such as coal, electricity, or bioenergy across countries. |
+| Ordering | Countries are not ordered by a specific composition metric such as fossil fuel share or electricity share. | This makes some analytical comparisons harder to identify quickly. |
+| Colour and Legend | The chart uses many colours across fuel and sector categories. | Heavy reliance on colour and legend-reading slows interpretation and may reduce accessibility. |
+| Storytelling | The chart presents many values but has limited annotations or callouts. | Readers are not guided toward the most important insights or unusual country patterns. |
+
+Overall, the original visualization works well as a compact regional overview, but it is less effective as an analytical comparison tool. Its main weakness is not the data itself, but the amount of visual work required from the reader. Our redesign should therefore focus on reducing cognitive load, improving cross-country comparability, and making the main energy patterns easier to identify.
+
+-----------------------------------------------------------------------
+
+# 3. Proposed Improvements 
+
+Based on the critique above, our proposed redesign aims to preserve the original chart’s regional comparison purpose while making the visualization clearer, more accessible, and more useful for analysis.
+
+The guiding question for our redesign is:
+
+> **How do Southeast Asian countries differ in what energy they consume, and where that energy is ultimately used?**
+
+Instead of simply making the original chart look more attractive, our improvements focus on helping the reader compare countries more accurately and understand the main energy patterns more quickly.
+
+## 3.1 Summary of Proposed Improvements
+
+| ID | Weakness Addressed | Proposed Improvement | Method or Technique |
+|---|---|---|---|
+| I1 | Country labels and stacked segments are difficult to read in the original layout. | Redesign the chart as horizontal 100% stacked bars so country names are easier to read and cross-country scanning becomes more natural. | Use ggplot2::geom_col() with countries on the y-axis and percentage share on the x-axis. |
+| I2 | Fuel mix and end-use sector are conceptually different but visually placed very close together. | Keep the two-panel structure, but clearly separate the figure into Fuel Mix and End-use Sector panels. | Use facet_wrap(~ Panel) or patchwork to create aligned small multiples. |
+| I3 | The original chart uses many colours, which increases visual noise. | Apply a more controlled and colourblind-safe palette so categories remain distinguishable. | Use scale_fill_brewer(), scale_fill_viridis_d(), or a manually defined accessible palette. |
+| I4 | The original chart does not guide the reader toward the main findings. | Add short annotations for important patterns, such as high oil dependence, high electricity share, or dominant industry demand. | Use geom_text(), geom_label(), or annotate() for selected insights. |
+| I5 | The country ordering does not directly support all analytical comparisons. | Sort countries by a meaningful metric depending on the story focus, such as fossil fuel share, electricity share, or industry share. | Use forcats::fct_reorder() after calculating derived metrics. |
+| I6 | Exact values are difficult to read from the original static chart. | Add percentage labels only for dominant categories or values above a selected threshold. | Use conditional labels with if_else(Percentage >= threshold, label, ''). |
+| I7 | The original visual does not clearly communicate the data limitation in our working dataset. | Add a clear caption explaining that our dataset is a structurally faithful synthetic proxy based on the original IEA chart. | Use a formal Quarto figure caption and data note. |
+| I8 | The original chart is mostly descriptive and does not directly support deeper analysis. | Create derived metrics such as fossil fuel share, electricity share, and sector concentration. | Use dplyr::group_by(), summarise(), and mutate(). |
+
+## 3.2 Redesign Direction
+
+Our main redesign will use a **horizontal two-panel 100% stacked bar chart**. The left panel will show each country’s fuel mix, while the right panel will show each country’s end-use sector mix.
+
+This keeps the strongest idea of the original visualization: comparing countries across both energy source and energy use. However, placing countries on the y-axis improves readability because country names no longer need to be rotated or squeezed under the chart.
+
+The two-panel structure also makes the logic clearer:
+
+* **Fuel Mix** answers: *What type of energy is consumed?*
+* **End-use Sector** answers: *Where is energy used?*
+
+This makes the chart easier to interpret while still preserving the original report’s regional comparison purpose.
+
+## 3.3 Sorting and Comparison
+
+The original chart is useful for giving a broad regional overview, but different research questions require different ordering. In our redesign, we propose sorting countries based on the analytical story being told.
+
+For example:
+
+* If the story is about fossil fuel dependence, countries can be sorted by fossil fuel share.
+* If the story is about electrification, countries can be sorted by electricity share.
+* If the story is about industrial energy demand, countries can be sorted by industry share.
+
+This turns the chart from a static overview into a more analytical comparison. The ordering itself helps reveal the pattern.
+
+## 3.4 Colour and Accessibility
+
+The original visualization uses many colours across two panels, which makes the chart visually busy. Our redesign will use a more controlled colour strategy.
+
+Fuel categories and sector categories should remain visually distinct. Colours should also be readable for users with colour vision deficiencies. This is important because colour is the main encoding method in a stacked composition chart. If colours are difficult to distinguish, the chart becomes harder to understand even if the data is accurate.
+
+## 3.5 Labels and Annotations
+
+The original chart requires readers to estimate most values visually. Our improved version will include selective percentage labels, but only where they help the reader.
+
+Labelling every segment would create clutter. Instead, we will label only dominant categories or values above a selected threshold. This keeps the chart clean while still showing the most important numbers.
+
+We also propose adding short annotations for key patterns, such as:
+
+* Countries with high oil dependence
+* Countries with high electricity share
+* Countries where industry dominates final energy use
+* Countries with a more diversified fuel mix
+
+These annotations help the visualization tell a clearer story instead of leaving the reader to decode every detail independently.
+
+## 3.6 Analytical Metrics
+
+To support deeper analysis, we will create derived metrics from the cleaned dataset.
+
+```{r}
+#| label: derived-metrics-plan
+#| echo: true
+#| eval: false
+
+library(tidyverse)
+library(here)
+
+energy_clean <- readr::read_csv(here::here("data", "energy_data_clean.csv"))
+
+fuel_metrics <- energy_clean |>
+  filter(Panel == "Fuels") |>
+  mutate(
+    fossil_grp = Fuel_Type %in% c("Oil", "Coal", "Natural gas"),
+    low_carbon_grp = Fuel_Type %in% c("Electricity", "Bioenergy", "Other fuels")
+  ) |>
+  group_by(Country) |>
+  summarise(
+    fossil_fuel_share = sum(Percentage[fossil_group], na.rm = TRUE),
+    low_carbon_share = sum(Percentage[low_carbon_group], na.rm = TRUE),
+    electr_share = sum(Percentage[Fuel_Type == "Electricity"], na.rm = TRUE),
+    .groups = "drop"
+  )
+
+sector_metrics <- energy_clean |>
+  filter(Panel == "Sector") |>
+  group_by(Country) |>
+  summarise(
+    indstr_share = sum(Percentage[End_Use_Sector == "Industry"], na.rm = TRUE),
+    trnsprt_share = sum(Percentage[End_Use_Sector == "Transport"], na.rm = TRUE),
+    bldngs_share = sum(Percentage[End_Use_Sector == "Buildings"], na.rm = TRUE),
+    .groups = "drop"
+  )
+
+energy_metrics <- fuel_metrics |>
+  left_join(sector_metrics, by = "Country")
+```
+
+These derived metrics allow the final report to answer stronger analytical questions:
+
+* Which countries are most dependent on fossil fuels?
+* Which countries show higher electricity use?
+* Which countries have energy demand mainly driven by industry?
+* Are fuel-mix differences linked to sector-demand differences?
+
+This strengthens the project because the improved visualization is not only more readable, but al so supports evidence-based interpretation.
+
+## 3.7 Planned Visualization Code
+
+```{r}
+#| label: improved-visualization-plan
+#| echo: true
+#| eval: false
+
+library(tidyverse)
+library(ggplot2)
+library(forcats)
+library(here)
+
+energy_clean <- readr::read_csv(here::here("data", "energy_data_clean.csv"))
+
+plot_data <- energy_clean |>
+  mutate(
+    Category = if_else(
+      Panel == "Fuels",
+      Fuel_Type,
+      End_Use_Sector
+    )
+  )
+
+ggplot(
+  plot_data,
+  aes(
+    x = Percentage,
+    y = fct_reorder(Country, Percentage, .fun = sum),
+    fill = Category
+  )
+) +
+  geom_col(width = 0.75) +
+  facet_wrap(~ Panel, ncol = 2) +
+  scale_x_continuous(
+    labels = scales::percent_format(scale = 1),
+    limits = c(0, 100)
+  ) +
+  labs(
+    title = "Southeast Asia’s final energy consumption mix differs sharply by country",
+    subtitle = "Fuel mix and end-use sector composition, 2024",
+    x = "Share of final energy consumption (%)",
+    y = NULL,
+    fill = "Category",
+    caption = "Data note: Based on a structurally faithful synthetic dataset proxying the original IEA visualization. Original source: IEA Southeast Asia Energy Outlook 2026."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.y = element_blank(),
+    strip.text = element_text(face = "bold")
+  )
+```
+
+## 3.8 Static and Interactive Output
+
+Our main output will be a clean static figure that works well in the final report and presentation. This is important because the visualization must still be understandable as a screenshot.
+
+If time allows, we can also create an interactive version using `plotly`. The interactive version would allow users to hover over each segment to view the country, category, panel, and exact percentage. This avoids overcrowding the static chart with too many labels.
+
+## 3.9 Strengths Preserved from the Original
+
+Although we are redesigning the chart, we preserve several strengths of the original visualization.
+
+First, we keep the **single-figure regional comparison**. The final output will not become a disconnected dashboard. It will remain one coordinated visualization.
+
+Second, we keep the **dual analytical lens** of the original: fuel mix and end-use sector demand. Fuel mix alone does not explain where energy is used, while sector composition alone does not explain what types of energy dominate.
+
+Third, we keep the **100% composition structure** because the key story is about relative energy mix rather than absolute consumption volume. Since our working dataset is normalised to 100% per country per panel, a proportional design is suitable and transparent.
+
+## 3.10 Summary
+
+Overall, our proposed improvements turn the original chart from a dense stacked comparison into a clearer visual argument. The redesigned chart will help viewers quickly compare Southeast Asian countries, identify differences in fuel reliance, and understand how energy demand is distributed across sectors. The added derived metrics will also support stronger analysis in later sections of the project.
+
 ------------------------------------------------------------------------
 
-# 2. Data Overview & Quality
+# 4. Data Overview & Quality
 
-## 2.1 Raw Data Structure 1
+## 4.1 Data Source and Extraction Method
 
-The first data source does not follow a simple rectangular table structure. It uses a **multi-block layout** where each category occupies a separate vertical block of rows, preceded by several metadata rows. The structure is generally as follows:
+Unlike a typical multi-block spreadsheet export, our data does not originate from a downloadable workbook. It is derived from a single published chart in the International Energy Agency's **Southeast Asia Energy Outlook 2026** report:
 
-- **Rows 1-6:** Metadata and headers (to be skipped)
-- **Row 7:** Column headers / Year markers
-- **Rows 8+:** Data blocks separated by category headers
+**Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024**
+IEA (2026), Paris. https://www.iea.org/data-and-statistics/charts/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024, Licence: CC BY 4.0
 
-\[Insert specific details about how the first data source is formatted and how it should be parsed.\]
+The chart's own download page explicitly states: *"The data from this chart is not available for download."* Only a chart image (a set of stacked bars, one per country, split by fuel and by end-use sector) is published — there is no underlying machine-readable table to parse. Because of this, the values in `energy_data.csv` were **visually estimated by our team from the published chart**, not scraped or downloaded as exact published figures. This is a deliberate methodological choice given the constraint, not an extraction error, and it is the single most important caveat for this section: **every percentage in our dataset is an approximation, not an official IEA statistic.**
 
-## 2.2 Raw Data Structure 2
+Extraction process:
 
-The second data source follows a similar multi-block convention but introduces additional complexity: the **sub-categories appear as column headers** (rather than rows), making it a two-dimensional table within each primary block.
+- Each country's stacked bar was read visually and each segment's length converted to a percentage, rounded to the nearest 0.5 percentage point (the level of precision visually distinguishable on the published chart).
+- Segments were cross-checked to sum to 100% within each country × dimension before being accepted, to catch misreads.
+- The chart covers two dimensions per country — fuel mix and end-use sector mix — both of which we captured.
 
-- **Rows 1-6:** Metadata and headers (to be skipped)
-- **Row 7:** Sub-category column headers
-- **Rows 8+:** Data blocks separated by primary category headers
+## 4.2 Resulting Dataset Structure
 
-\[Insert specific details about how the second data source is formatted.\]
+Because there is no raw spreadsheet to document the layout of, the "raw" file we work with *is* the tidy CSV produced by the extraction step above. Its structure is already long-format and rectangular:
 
-## 2.3 Identified Data Quality Challenges
+| Column | Type | Description |
+|---|---|---|
+| `Country` | character | One of 10 ASEAN countries covered by the chart |
+| `Dimension` | character | `"Fuel"` or `"Sector"` — which breakdown the row belongs to |
+| `Category` | character | The specific fuel (e.g. Oil, Coal) or sector (e.g. Industry, Transport) |
+| `Percentage` | double | Estimated share of total final consumption, 0–100 |
+
+There are no metadata rows, no merged headers, and no block separators to skip — `read_csv()` with default settings parses it correctly. The structural complexity in this dataset sits in the *estimation* that produced it, not in its file layout.
+
+\[Insert a short note here on which 10 countries are included, and confirm whether your team plans to keep Dimension long, or pivot Fuel and Sector into separate wide tables for plotting — this affects what your Section 3 analysis code expects as input.\]
+
+## 4.3 Identified Data Quality Challenges
 
 Below is a summary of the data quality challenges identified during the initial data inspection, along with the planned mitigation strategies.
 
 | ID | Issue Description | Severity | Planned Decision / Mitigation |
 |----|----|----|----|
-| **C1** | \[Describe challenge 1, e.g., missing column markers\] | High | \[Describe mitigation, e.g., Extract blocks independently using known start rows\] |
-| **C2** | \[Describe challenge 2, e.g., inconsistent date formats\] | Medium | \[Describe mitigation, e.g., Standardize using `lubridate`\] |
-| **C3** | \[Describe challenge 3, e.g., hidden aggregate rows\] | Low | \[Describe mitigation, e.g., Filter out rows containing 'Total' in label column\] |
+| **C1** | Values are visually estimated from a chart rather than sourced from an exact published table. Estimation/reading error of roughly ±1–2 percentage points per segment is possible, and this is irreducible given the source constraint. | High | Disclose explicitly in the report as a stated limitation. Retain rounding to the nearest 0.5 pp for consistency, and validate that every country's segments sum to 100% per dimension (already confirmed in our extracted data) as a sanity check rather than a guarantee of accuracy. |
+| **C2** | The fuel-mix category set is not consistent across countries: Thailand includes an "Other Fuels" category (1.0%) that no other country has a nonzero value for. This reflects the source chart's shared legend, where small segments are likely omitted from display for most countries rather than genuinely absent. | Medium | Treat "Other Fuels" as a valid category for all 10 countries, explicitly filling in 0 for countries where it doesn't currently appear, before pivoting to wide format. Document this assumption in code comments. |
+| **C3** | The dataset is a single cross-sectional snapshot (2024 only). No time-series comparison is possible from this source alone. | Medium | Scope the analysis explicitly to a 2024 cross-country comparison; do not attempt trend claims from this dataset. If trend analysis is later required, a second dataset (e.g. the 2015 comparison shown elsewhere in the same IEA report) would need to be separately extracted. |
+| **C4** | Timor-Leste, ASEAN's newest member, is absent from the dataset. | Low | Not an extraction error — the source chart's own notes state data is unavailable for Timor-Leste. State this explicitly in the report so it reads as a documented source limitation rather than an oversight. |
+| **C5** | Country naming follows IEA's exact chart conventions (e.g. "Lao DPR", "Viet Nam" with a space, "Brunei Darussalam" in full), which may not match the conventions used by other datasets if joined later. | Low | Keep IEA's naming as the canonical form for this proposal. If a second dataset is joined in a later phase, standardize both to a single lookup table (e.g. ISO-3 country codes) at that point. |
 
 ------------------------------------------------------------------------
 
-# 3. Data Pipeline & Reproducibility
+# 5. Data Pipeline & Reproducibility
 
-## 3.1 Illustrative Code Structure
+## 5.1 Illustrative Code Structure
 
-The final pipeline code will follow the structure below. This demonstrates the planned function signatures and data flow.
+The final pipeline code will follow the structure below. It begins with a single loading helper, validates the long-format structure, and concludes with a faceted ggplot2 rendering block for the two-panel redesign.
 
-**Code Block: Data Extraction Helper Function** *This block should contain the named helper function used to extract and parse the raw data from the source files, utilizing specific row offsets and column indices.*
-
-```{r}
-# Insert extraction function here
-# Example: extract_data() 
-# args: raw sheet, start row, category label, col index
-```
-
-**Code Block: Data Aggregation and Summary** *This block should contain the code that aggregates the extracted tidy data into the final summary format required for the visualizations (e.g., creating the 24-row summary for chart labels).*
+**Code Block: Data Extraction Helper Function** *This block defines a clean helper for reading the long-format CSV, enforcing factor levels, and preparing the data for plotting.*
 
 ```{r}
-# Insert aggregation/summary code here
-# Example: summary_data <- ... 
+#| label: load-energy-data
+#| echo: true
+#| message: false
+#| warning: false
+
+load_energy_data <- function(filepath) {
+  energy_data <- read.csv(filepath, stringsAsFactors = FALSE)
+
+  energy_data <- energy_data |>
+    dplyr::mutate(
+      Country = factor(
+        Country,
+        levels = c(
+          "Brunei Darussalam",
+          "Cambodia",
+          "Indonesia",
+          "Lao DPR",
+          "Malaysia",
+          "Myanmar",
+          "Philippines",
+          "Singapore",
+          "Thailand",
+          "Viet Nam"
+        )
+      ),
+      Dimension = factor(Dimension, levels = c("Fuel", "Sector")),
+      Category = factor(Category),
+      Percentage = as.numeric(Percentage)
+    )
+
+  energy_data
+}
+
+energy_data <- load_energy_data("data/energy_data.csv")
 ```
 
-**Code Block: Visualization / Plotting** *This block should contain the `ggplot2` (or equivalent) code used to generate the final visual outputs, including theme customizations and scale adjustments.*
+**Code Block: Data Aggregation and Summary** *This block validates the 100% composition structure for each country–dimension combination and prepares the data for the dual-panel visualisation.*
 
 ```{r}
-# Insert plotting code here
+#| label: validate-aggregate-energy-data
+#| echo: true
+#| message: false
+#| warning: false
+
+if (!exists("energy_data")) {
+  energy_data <- load_energy_data("data/energy_data.csv")
+}
+
+validation_tbl <- energy_data |>
+  dplyr::group_by(Country, Dimension) |>
+  dplyr::summarise(
+    Total_Percentage = sum(Percentage, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+print(validation_tbl)
+
+stopifnot(all(abs(validation_tbl$Total_Percentage - 100) < 1e-6))
+
+plot_data <- energy_data |>
+  dplyr::arrange(Dimension, Country, Category)
 ```
 
-## 3.2 Reproducibility Considerations
+**Code Block: Visualization / Plotting** *This block creates the horizontal 100% stacked bar chart with country names on the y-axis and a two-panel layout separated by fuel and sector dimensions.*
+
+```{r}
+#| label: plot-energy-composition
+#| echo: true
+#| message: false
+#| warning: false
+
+if (!exists("plot_data")) {
+  energy_data <- load_energy_data("data/energy_data.csv")
+  plot_data <- energy_data |>
+    dplyr::arrange(Dimension, Country, Category)
+}
+
+fuel_colors <- c(
+  "Oil" = "#d95f02",
+  "Coal" = "#7570b3",
+  "Natural Gas" = "#1b9e77",
+  "Bioenergy" = "#66a61e",
+  "Electricity" = "#e7298a",
+  "Other Fuels" = "#666666"
+)
+
+sector_colors <- c(
+  "Industry" = "#1f78b4",
+  "Transport" = "#e6ab02",
+  "Buildings" = "#66c2a5",
+  "Other" = "#8da0cb"
+)
+
+plot_colors <- c(fuel_colors, sector_colors)
+
+ggplot2::ggplot(
+  plot_data,
+  ggplot2::aes(x = Percentage, y = Country, fill = Category)
+) +
+  ggplot2::geom_col(width = 0.8, colour = "white", linewidth = 0.2) +
+  ggplot2::facet_wrap(~ Dimension, ncol = 2, scales = "free_y") +
+  ggplot2::scale_x_continuous(
+    limits = c(0, 100),
+    labels = function(x) paste0(x, "%")
+  ) +
+  ggplot2::scale_fill_manual(values = plot_colors) +
+  ggplot2::labs(
+    title = "Southeast Asia final energy consumption mix by country",
+    subtitle = "Fuel and sector composition, 2024",
+    x = "Share of final energy consumption (%)",
+    y = NULL,
+    fill = "Category"
+  ) +
+  ggplot2::theme_minimal(base_size = 12) +
+  ggplot2::theme(
+    legend.position = "bottom",
+    panel.grid.major.y = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    strip.text = ggplot2::element_text(face = "bold")
+  )
+```
+
+## 5.2 Reproducibility Considerations
 
 To ensure the project is fully reproducible, the following standards are implemented:
 
-- **📁 File Structure:** All raw source files are stored in a `datasets/` subfolder within the project root. File paths are resolved programmatically relative to the `.qmd` document's directory (e.g., using `here::here()`), ensuring no absolute paths are hard-coded.
-- **📦 Package Management:** All required packages are loaded at the top of the pipeline in a single block. Package versions are captured using `sessionInfo()` at the end of the document.
-- **🔒 Source File Integrity:** All row offsets and column indices derived from visual inspection are stored as named constants in a dedicated setup block. No "magic numbers" appear inside extraction functions.
-- **✅ Built-in Assertions:** The pipeline requires no internet connection or external API calls. All data is loaded locally. Assertions are used to verify row counts and column types at each stage of the pipeline.
+- **📁 File Structure:** All raw source assets and intermediate tables are stored in a localized `data/` or `datasets/` subdirectory within the project root, and file paths are built using relative paths such as `data/energy_data.csv` so the workflow can be executed unchanged across different host machines.
+- **📦 Package Management:** A single setup block at the top of the analysis script loads the required packages in one place, including `readr`, `dplyr`, and `ggplot2` when available, while `sessionInfo()` is used at the end of the workflow to preserve an explicit snapshot of the R environment.
+- **🔒 Source File Integrity:** Because the dataset was manually reconstructed from an image-based chart, each version of the CSV is preserved with an MD5 checksum and a team verification log records extraction decisions, rounding choices, and disputed values to reduce estimation variance.
+- **✅ Built-in Assertions:** The pipeline checks that every country–dimension combination sums to 100%, that `Percentage` remains numeric, and that the required factor levels for `Country`, `Dimension`, and `Category` are present before any visualisation is rendered.
 
 ------------------------------------------------------------------------
 
-# 4. Data Analysis Plan
+# 6. Data Analysis Plan
 
-\[Insert the step-by-step methodology for the data analysis. This should include:\] 1. **\[Step 1 Name\]:** \[Description of the first analytical step\] 2. **\[Step 2 Name\]:** \[Description of the second analytical step\] 3. **\[Step 3 Name\]:** \[Description of the third analytical step\]
+To answer the three research questions introduced in Section 1.1, the analysis proceeds through three descriptive and structural steps. Each step is derived directly from the long-format energy dataset and uses relative shares rather than absolute volumes, which is consistent with the 100% compositional structure of the proposed visualisation.
+
+1. **Step 1: Resource Dependency Profiling (Fuel Variance Analysis).** For each country $c$, the team will compute the share of each fuel type $p_{c,f}$ from the cleaned dataset, where $p_{c,f}$ denotes the percentage share of fuel $f$ in country $c$. The dominant fuel dependency for each nation will be identified as $M_c = \max_f p_{c,f}$, and the associated fuel category will be recorded as $f_c^* = \arg\max_f p_{c,f}$. Countries exceeding a 50% threshold for a single fuel, such as Oil or Coal, will be flagged as strongly concentrated resource-dependent economies. To complement this threshold-based view, the team will also calculate a concentration measure using a Herfindahl-Hirschman Index, $HHI_c = \sum_f p_{c,f}^2$, where higher values indicate more concentrated fuel portfolios and lower values indicate greater diversification. This step directly addresses whether the ASEAN countries differ meaningfully in their resource dependencies and whether some economies display a narrow fossil-fuel profile while others are more diversified.
+
+2. **Step 2: Sectoral Demand Disparity Mapping (End-Use Ratios).** The second step will focus on the sector dimension by calculating the relative weight of productive industrial demand versus consumer-facing overhead. For each country, the team will compute $IndustrialShare_c = p_{c,\text{Industry}}$ and $ConsumerOverhead_c = p_{c,\text{Transport}} + p_{c,\text{Buildings}}$. These two quantities will then be compared using the ratio $R_c = \frac{IndustrialShare_c}{ConsumerOverhead_c}$. Values of $R_c > 1$ will indicate economies whose energy demand is disproportionately driven by manufacturing and industrial activity, whereas values below 1 will point to countries where transport and building demand dominate. A complementary difference term, $\Delta_c = IndustrialShare_c - ConsumerOverhead_c$, will be used to rank countries on a simple productive-versus-consumer scale. This step addresses whether energy demand structures differ systematically across the region and whether some economies are more industrially oriented while others are more residential or service-driven.
+
+3. **Step 3: Macroeconomic Vulnerability Indexing (Risk Convergence).** The final step will join the fuel and sector outputs into a single exposure metric that captures the overlap between high oil reliance and inelastic consumer demand. Because direct import-volume data are not available in the chart-derived dataset, the share of Oil will be used as a practical proxy for oil import exposure. The team will therefore compute a vulnerability index for each country as $V_c = \frac{OilShare_c \times ConsumerOverhead_c}{100}$, where $OilShare_c$ is the percentage share of oil in the country’s fuel mix and $ConsumerOverhead_c$ is the combined share of transport and buildings in the sector mix. Higher values of $V_c$ indicate stronger convergence between externally exposed fuel dependence and essential household or mobility demand, which is precisely the combination that intensifies sensitivity to retail cost-of-living shocks. Countries exceeding both a high oil-share threshold and a high consumer-overhead threshold will be classified as high-risk cases, providing a direct descriptive basis for assessing which ASEAN economies are most exposed to fuel-price volatility and related inflationary pressures.
 
 ------------------------------------------------------------------------
 
-# 5. References & Sources
+# 7. References & Sources
 
-## 5.1 Article Source
+## 7.1 Article Source
 
 - \[Author/Organization\]. (\[Year\]). *\[Article Title\]*. Retrieved from \[URL\]
 
-## 5.2 Data Sources
+## 7.2 Data Sources
 
 - \[Dataset Name 1\], \[Publisher/Source\], \[Year\].
 - \[Dataset Name 2\], \[Publisher/Source\], \[Year\].
 
-## 5.3 Design Reference
+## 7.3 Design Reference
 
 - \[Reference to any design inspiration, color palettes (e.g., colorblind-safe palettes), or UI/UX guidelines used in the project\].
 
 ------------------------------------------------------------------------
 
-# 6. Appendix: Data Dictionary
+# 8. Appendix: Data Dictionary
 
 | Column | Data Type | Source | Unit / Range | Role in Analysis |
 |----|----|----|----|----|
