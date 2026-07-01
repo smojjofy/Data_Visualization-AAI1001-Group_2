@@ -99,15 +99,24 @@ The legend also requires frequent back-and-forth reading. Readers must look at t
 Finally, the chart has limited annotation. It shows many patterns, but it does not guide the reader toward the most important ones. For a report or presentation, the visualization would be stronger if it included clearer labels, short callouts, or a sorted structure that highlights the main story.
 
 ## 2.4 Summary of Critique
+| ID | Strengths | 
+|-|---|
+| S1 | Holistic and cohesive overview of the regions | 
+| S2 | Mulitple dimensions of fuel mix and end-use sector demand|
+| S3 | Scaled for relative comparison between regions |
 
-| Evaluation Area | Issue in Original Chart | Why It Matters |
-|---|---|---|
-| Clarity | Fuel mix and end-use sector are shown side by side, but they represent different analytical dimensions. | Readers must switch between two category systems, increasing cognitive load. |
-| Scale Context | The chart uses percentages normalised to 100% for each country and panel. | This supports composition comparison, but hides absolute energy consumption differences between countries. |
-| Comparability | Stacked segments do not all share a common baseline. | It is difficult to accurately compare non-baseline categories such as coal, electricity, or bioenergy across countries. |
-| Ordering | Countries are not ordered by a specific composition metric such as fossil fuel share or electricity share. | This makes some analytical comparisons harder to identify quickly. |
-| Colour and Legend | The chart uses many colours across fuel and sector categories. | Heavy reliance on colour and legend-reading slows interpretation and may reduce accessibility. |
-| Storytelling | The chart presents many values but has limited annotations or callouts. | Readers are not guided toward the most important insights or unusual country patterns. |
+
+
+| ID | Weakness | 
+|-|---|
+| W1 | Country labels and stacked segments are difficult to read in the original layout. | 
+| W2 | Fuel mix and end-use sector are conceptually different but visually placed very close together.|
+| W3 | The original chart uses many colours, which increases visual noise. |
+| W4 | The original chart does not guide the reader toward the main findings. |
+| W5 | The country ordering does not directly support all analytical comparisons. |
+| W6 | Exact values are difficult to read from the original static chart. |
+| W7 | The original visual does not clearly communicate the data limitation in our working dataset. | 
+| W8 | The original chart is mostly descriptive and does not directly support deeper analysis. |
 
 Overall, the original visualization works well as a compact regional overview, but it is less effective as an analytical comparison tool. Its main weakness is not the data itself, but the amount of visual work required from the reader. Our redesign should therefore focus on reducing cognitive load, improving cross-country comparability, and making the main energy patterns easier to identify.
 
@@ -126,15 +135,15 @@ Instead of simply making the original chart look more attractive, our improvemen
 ## 3.1 Summary of Proposed Improvements
 
 | ID | Weakness Addressed | Proposed Improvement | Method or Technique |
-|---|---|---|---|
-| I1 | Country labels and stacked segments are difficult to read in the original layout. | Redesign the chart as horizontal 100% stacked bars so country names are easier to read and cross-country scanning becomes more natural. | Use ggplot2::geom_col() with countries on the y-axis and percentage share on the x-axis. |
-| I2 | Fuel mix and end-use sector are conceptually different but visually placed very close together. | Keep the two-panel structure, but clearly separate the figure into Fuel Mix and End-use Sector panels. | Use facet_wrap(~ Panel) or patchwork to create aligned small multiples. |
-| I3 | The original chart uses many colours, which increases visual noise. | Apply a more controlled and colourblind-safe palette so categories remain distinguishable. | Use scale_fill_brewer(), scale_fill_viridis_d(), or a manually defined accessible palette. |
-| I4 | The original chart does not guide the reader toward the main findings. | Add short annotations for important patterns, such as high oil dependence, high electricity share, or dominant industry demand. | Use geom_text(), geom_label(), or annotate() for selected insights. |
-| I5 | The country ordering does not directly support all analytical comparisons. | Sort countries by a meaningful metric depending on the story focus, such as fossil fuel share, electricity share, or industry share. | Use forcats::fct_reorder() after calculating derived metrics. |
-| I6 | Exact values are difficult to read from the original static chart. | Add percentage labels only for dominant categories or values above a selected threshold. | Use conditional labels with if_else(Percentage >= threshold, label, ''). |
-| I7 | The original visual does not clearly communicate the data limitation in our working dataset. | Add a clear caption explaining that our dataset is a structurally faithful synthetic proxy based on the original IEA chart. | Use a formal Quarto figure caption and data note. |
-| I8 | The original chart is mostly descriptive and does not directly support deeper analysis. | Create derived metrics such as fossil fuel share, electricity share, and sector concentration. | Use dplyr::group_by(), summarise(), and mutate(). |
+|-|-|---|---|
+| I1 | W1 | Redesign the chart as horizontal 100% stacked bars so country names are easier to read and cross-country scanning becomes more natural. | Use ggplot2::geom_col() with countries on the y-axis and percentage share on the x-axis. |
+| I2 | W2 | Keep the two-panel structure, but clearly separate the figure into Fuel Mix and End-use Sector panels. | Use facet_wrap(~ Panel) or patchwork to create aligned small multiples. |
+| I3 | W3 | Apply a more controlled and colourblind-safe palette so categories remain distinguishable. | Use scale_fill_brewer(), scale_fill_viridis_d(), or a manually defined accessible palette. |
+| I4 | W4 | Add short annotations for important patterns, such as high oil dependence, high electricity share, or dominant industry demand. | Use geom_text(), geom_label(), or annotate() for selected insights. |
+| I5 | W5 |Sort countries by a meaningful metric depending on the story focus, such as fossil fuel share, electricity share, or industry share.| Use forcats::fct_reorder() after calculating derived metrics. |
+| I6 | W6 | Add percentage labels only for dominant categories or values above a selected threshold. | Use conditional labels with if_else(Percentage >= threshold, label, ''). |
+| I7 | W7 | Add a clear caption explaining that our dataset is a structurally faithful synthetic proxy based on the original IEA chart. | Use a formal Quarto figure caption and data note. |
+| I8 | W8 | Create derived metrics such as fossil fuel share, electricity share, and sector concentration. | Use dplyr::group_by(), summarise(), and mutate(). |
 
 ## 3.2 Redesign Direction
 
