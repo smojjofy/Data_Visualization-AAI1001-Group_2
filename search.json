@@ -157,22 +157,22 @@
     "objectID": "proposal.html#article-source",
     "href": "proposal.html#article-source",
     "title": "Redesigning a Southeast Asian Energy Consumption Visualization",
-    "section": "7.1 Article Source",
-    "text": "7.1 Article Source\n\nInternational Energy Agency. (2026). Southeast Asia Energy Outlook 2026. IEA: Paris. https://www.iea.org/reports/southeast-asia-energy-outlook-2026/energy-in-southeast-asia"
+    "section": "8.1 Article Source",
+    "text": "8.1 Article Source\n\nInternational Energy Agency. (2026). Southeast Asia Energy Outlook 2026. IEA: Paris. https://www.iea.org/reports/southeast-asia-energy-outlook-2026/energy-in-southeast-asia"
   },
   {
     "objectID": "proposal.html#data-sources",
     "href": "proposal.html#data-sources",
     "title": "Redesigning a Southeast Asian Energy Consumption Visualization",
-    "section": "7.2 Data Sources",
-    "text": "7.2 Data Sources\n\nInternational Energy Agency. (2024). Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024 [Interactive stacked column chart]. Retrieved from the IEA Chart Hub: https://www.iea.org/data-and-statistics/charts/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024\nThe working file energy_data.csv is a tidy dataset created by the project team from percentage values extracted from the CC BY 4.0 licensed public graphic via interactive tooltips. This provenance note is included to document the source constraint and the fact that the values were transcribed from the public chart interface rather than taken from a published statistical table."
+    "section": "8.2 Data Sources",
+    "text": "8.2 Data Sources\n\nInternational Energy Agency. (2024). Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024 [Interactive stacked column chart]. Retrieved from the IEA Chart Hub: https://www.iea.org/data-and-statistics/charts/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024\nThe working file energy_data.csv is a tidy dataset created by the project team from percentage values extracted from the CC BY 4.0 licensed public graphic via interactive tooltips. This provenance note is included to document the source constraint and the fact that the values were transcribed from the public chart interface rather than taken from a published statistical table."
   },
   {
     "objectID": "proposal.html#design-formula-reference",
     "href": "proposal.html#design-formula-reference",
     "title": "Redesigning a Southeast Asian Energy Consumption Visualization",
-    "section": "7.3 Design & Formula Reference",
-    "text": "7.3 Design & Formula Reference\n\nThe Herfindahl-Hirschman Index, \\(HHI_c = \\sum_f p_{c,f}^2\\), is a standard concentration metric used in energy economics and industrial concentration analysis to quantify portfolio concentration and evaluate exposure to single-source disruptions. Its use is consistent with the Eurostat diversity framework for energy supply and the Asia Pacific Energy Research Centre (APERC) treatment of supply concentration.\nThe consumer-overhead and vulnerability formulation, \\(R_c = \\frac{IndustrialShare_c}{TransportShare_c + BuildingsShare_c}\\) and \\(V_c = \\frac{OilShare_c \\times (TransportShare_c + BuildingsShare_c)}{100}\\), follows the logic of macroeconomic shock transmission frameworks used by the Institute of International Finance (IIF) and the EU Energy Poverty Advisory Hub (EPAH). Multiplying a fuel-import exposure proxy by the share of demand concentrated in inelastic consumer-facing sectors provides a direct mathematical representation of how supply-side volatility can translate into domestic retail cost-of-living inflation."
+    "section": "8.3 Design & Formula Reference",
+    "text": "8.3 Design & Formula Reference\n\nThe Herfindahl-Hirschman Index, \\(HHI_c = \\sum_f p_{c,f}^2\\), is a standard concentration metric used in energy economics and industrial concentration analysis to quantify portfolio concentration and evaluate exposure to single-source disruptions. Its use is consistent with the Eurostat diversity framework for energy supply and the Asia Pacific Energy Research Centre (APERC) treatment of supply concentration.\nThe consumer-overhead and vulnerability formulation, \\(R_c = \\frac{IndustrialShare_c}{TransportShare_c + BuildingsShare_c}\\) and \\(V_c = \\frac{OilShare_c \\times (TransportShare_c + BuildingsShare_c)}{100}\\), follows the logic of macroeconomic shock transmission frameworks used by the Institute of International Finance (IIF) and the EU Energy Poverty Advisory Hub (EPAH). Multiplying a fuel-import exposure proxy by the share of demand concentrated in inelastic consumer-facing sectors provides a direct mathematical representation of how supply-side volatility can translate into domestic retail cost-of-living inflation."
   },
   {
     "objectID": "CONTEXT.html",
