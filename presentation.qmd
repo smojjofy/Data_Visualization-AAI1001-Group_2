@@ -1,0 +1,75 @@
+---
+title: "Southeast Asia Energy Consumption Visualization Project"
+author: "Group 2"
+date: "2026-07-13"
+format:
+  revealjs:
+    theme: [default]
+    slide-number: true
+    incremental: true
+---
+
+```{r}
+#| include: false
+# Global setup chunk for libraries, options, and shared objects.
+```
+
+## Project Overview
+
+This presentation documents a critique and improvement of an existing visualization of Southeast Asia's energy consumption patterns.
+
+## Project Objectives
+
+1. Apply data analysis techniques to generate meaningful insights from structured data.
+2. Document data and code to ensure clarity, transparency, and reproducibility.
+3. Collaborate effectively as a team to execute a complete, version-controlled data workflow.
+
+## Data Context
+
+- Source dataset: `data/energy_data.csv`
+- Scope: Southeast Asia, 2024
+- Structure: long-format data with country, fuel type, end-use sector, percentage, and panel fields
+- Note: This project uses a structurally faithful synthetic proxy dataset.
+
+## Visualization Critique
+
+### Existing Chart
+
+- [Describe the original visualization here.]
+- [List the main strengths and weaknesses here.]
+
+### Key Issues to Address
+
+- [Issue 1]
+- [Issue 2]
+- [Issue 3]
+
+## Analysis Plan
+
+- [Describe the descriptive analysis to be performed.]
+- [Describe any comparisons, summaries, or validation checks.]
+- [Describe the insight questions the team wants to answer.]
+
+## Design Direction
+
+- [Describe the improved chart concept.]
+- [Describe the intended encodings, layout, and annotations.]
+- [Describe accessibility and readability considerations.]
+
+## Reproducible Workflow
+
+- Data cleaning and validation
+- Analysis and summary tables
+- Visualization generation
+- Quarto rendering to HTML
+
+## Deliverables
+
+- `presentation.qmd`
+- Supporting data and scripts
+- Exported HTML presentation
+
+## Notes
+
+- Fill in detailed findings, figures, and final conclusions later.
+- Keep all paths relative to the project root.
