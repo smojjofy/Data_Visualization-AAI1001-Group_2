@@ -5,6 +5,7 @@
 .positai
 _site/
 proposal_files/
+presentation_files/
 .DS_Store
 CONTEXT.html
 
