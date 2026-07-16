@@ -31,12 +31,12 @@ This presentation documents a critique and improvement of an existing visualizat
 - Structure: long-format data with country, fuel type, end-use sector, percentage, and panel fields
 - Note: This project uses a structurally faithful synthetic proxy dataset.
 
-## Visualization Critique
-
 ### Existing Chart
 
 - [Describe the original visualization here.]
 - [List the main strengths and weaknesses here.]
+
+## Visualization Critique
 
 ### Key Issues to Address
 
