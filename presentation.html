@@ -6,8 +6,8 @@
 <script src="presentation_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="presentation_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.38">
+<link href="presentation_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Group 2">
   <meta name="dcterms.date" content="2026-07-13">
@@ -158,15 +158,28 @@ Group 2
 <section id="data-context" class="slide level2">
 <h2>Data Context</h2>
 <ul>
-<li class="fragment">Source dataset: <code>data/energy_data.csv</code></li>
-<li class="fragment">Scope: Southeast Asia, 2024</li>
-<li class="fragment">Structure: long-format data with country, fuel type, end-use sector, percentage, and panel fields</li>
-<li class="fragment">Note: This project uses a structurally faithful synthetic proxy dataset.</li>
+<li class="fragment">Source dataset: IEA, <em>Southeast Asia Energy Outlook 2026</em> — “Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024”</li>
+<li class="fragment">Scope: 10 ASEAN countries, 2024 cross-sectional snapshot only (no time series)</li>
+<li class="fragment">Structure: long-format <code>energy_data.csv</code> with <code>Country</code>, <code>Dimension</code> (“Fuel”/“Sector”), <code>Category</code>, and <code>Percentage</code> fields</li>
+<li class="fragment">Extraction: no downloadable data table existed; values were reconstructed from the chart’s interactive hover tooltips and validated so each country-dimension pair sums to 100%</li>
+<li class="fragment"><strong>Important note: due to data quality issues at the source (e.g.&nbsp;inconsistent country naming conventions such as “Lao DPR” and “Viet Nam”), the original data could not be used as-is. We therefore built a structurally faithful synthetic proxy dataset that mirrors the real structure and distributions for this project.</strong></li>
+<li class="fragment">Known limitations: Timor-Leste is absent (unavailable at source); Thailand’s “Other Fuels” category is inconsistently reported across countries</li>
 </ul>
-<h3 id="existing-chart">Existing Chart</h3>
+</section>
+<section id="existing-chart" class="slide level2">
+<h2>Existing Chart</h2>
+
+<img data-src="images/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024.png" class="r-stretch quarto-figure-center"><p class="caption">Figure 1: Original IEA Chart - “Total Final Consumption mix by fuel and end-use sector in Southeast Asia, 2024”</p><ul>
+<li class="fragment">Dual-panel, 100% stacked column chart comparing <strong>fuel supply mix</strong> (left) against <strong>end-use sector demand</strong> (right) across all 10 ASEAN nations</li>
+<li class="fragment">Strengths: enables direct part-to-whole comparison of energy “DNA” across diverse economies on a shared baseline; tells a clear story of oil/transport dependency vs.&nbsp;bioenergy-to-electricity development divide</li>
+<li class="fragment">Weaknesses:
 <ul>
-<li class="fragment">[Describe the original visualization here.]</li>
-<li class="fragment">[List the main strengths and weaknesses here.]</li>
+<li class="fragment">No on-chart legend — colors cannot be decoded without external report tables</li>
+<li class="fragment">Two different category systems (fuel vs.&nbsp;sector) shown side by side increases cognitive load</li>
+<li class="fragment">Percentages hide absolute consumption volume differences between countries</li>
+<li class="fragment">Non-baseline stacked segments (e.g.&nbsp;coal, electricity) are hard to compare across countries</li>
+<li class="fragment">Heavy reliance on color with minimal annotation slows interpretation and reduces accessibility</li>
+</ul></li>
 </ul>
 </section>
 <section id="visualization-critique" class="slide level2">
