@@ -155,22 +155,27 @@ Group 2
 <li class="fragment">Collaborate effectively as a team to execute a complete, version-controlled data workflow.</li>
 </ol>
 </section>
-<section id="data-context" class="slide level2">
+<section id="data-context" class="slide level2 smaller">
 <h2>Data Context</h2>
 <ul>
 <li class="fragment">Source dataset: IEA, <em>Southeast Asia Energy Outlook 2026</em> — “Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024”</li>
 <li class="fragment">Scope: 10 ASEAN countries, 2024 cross-sectional snapshot only (no time series)</li>
 <li class="fragment">Structure: long-format <code>energy_data.csv</code> with <code>Country</code>, <code>Dimension</code> (“Fuel”/“Sector”), <code>Category</code>, and <code>Percentage</code> fields</li>
 <li class="fragment">Extraction: no downloadable data table existed; values were reconstructed from the chart’s interactive hover tooltips and validated so each country-dimension pair sums to 100%</li>
-<li class="fragment"><strong>Important note: due to data quality issues at the source (e.g.&nbsp;inconsistent country naming conventions such as “Lao DPR” and “Viet Nam”), the original data could not be used as-is. We therefore built a structurally faithful synthetic proxy dataset that mirrors the real structure and distributions for this project.</strong></li>
+<li class="fragment"><strong>Note: due to data quality issues at the source (e.g.&nbsp;inconsistent country naming conventions such as “Lao DPR” and “Viet Nam”), the original data could not be used as-is. We therefore built a structurally faithful synthetic proxy dataset that mirrors the real structure and distributions for this project.</strong></li>
 <li class="fragment">Known limitations: Timor-Leste is absent (unavailable at source); Thailand’s “Other Fuels” category is inconsistently reported across countries</li>
 </ul>
 </section>
 <section id="existing-chart" class="slide level2">
 <h2>Existing Chart</h2>
 
-<img data-src="images/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024.png" class="r-stretch quarto-figure-center"><p class="caption">Figure 1: Original IEA Chart - “Total Final Consumption mix by fuel and end-use sector in Southeast Asia, 2024”</p><ul>
+<img data-src="images/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024.png" style="width:55.0%" class="r-stretch quarto-figure-center"><p class="caption">Figure 1: Original IEA Chart - “Total Final Consumption mix by fuel and end-use sector in Southeast Asia, 2024”</p><ul>
 <li class="fragment">Dual-panel, 100% stacked column chart comparing <strong>fuel supply mix</strong> (left) against <strong>end-use sector demand</strong> (right) across all 10 ASEAN nations</li>
+</ul>
+</section>
+<section id="existing-chart-strengths-weaknesses" class="slide level2 smaller">
+<h2>Existing Chart: Strengths &amp; Weaknesses</h2>
+<ul>
 <li class="fragment">Strengths: enables direct part-to-whole comparison of energy “DNA” across diverse economies on a shared baseline; tells a clear story of oil/transport dependency vs.&nbsp;bioenergy-to-electricity development divide</li>
 <li class="fragment">Weaknesses:
 <ul>

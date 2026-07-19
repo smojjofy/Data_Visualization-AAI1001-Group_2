@@ -24,7 +24,7 @@ This presentation documents a critique and improvement of an existing visualizat
 2. Document data and code to ensure clarity, transparency, and reproducibility.
 3. Collaborate effectively as a team to execute a complete, version-controlled data workflow.
 
-## Data Context
+## Data Context {.smaller}
 
 - Source dataset: IEA, *Southeast Asia Energy Outlook 2026* — "Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024"
 - Scope: 10 ASEAN countries, 2024 cross-sectional snapshot only (no time series)
