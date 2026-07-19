@@ -26,15 +26,25 @@ This presentation documents a critique and improvement of an existing visualizat
 
 ## Data Context
 
-- Source dataset: `data/energy_data.csv`
-- Scope: Southeast Asia, 2024
-- Structure: long-format data with country, fuel type, end-use sector, percentage, and panel fields
-- Note: This project uses a structurally faithful synthetic proxy dataset.
+- Source dataset: IEA, *Southeast Asia Energy Outlook 2026* — "Total final consumption mix by fuel and end-use sector in Southeast Asia, 2024"
+- Scope: 10 ASEAN countries, 2024 cross-sectional snapshot only (no time series)
+- Structure: long-format `energy_data.csv` with `Country`, `Dimension` ("Fuel"/"Sector"), `Category`, and `Percentage` fields
+- Extraction: no downloadable data table existed; values were reconstructed from the chart's interactive hover tooltips and validated so each country-dimension pair sums to 100%
+- **Important note: due to data quality issues at the source (e.g. inconsistent country naming conventions such as "Lao DPR" and "Viet Nam"), the original data could not be used as-is. We therefore built a structurally faithful synthetic proxy dataset that mirrors the real structure and distributions for this project.**
+- Known limitations: Timor-Leste is absent (unavailable at source); Thailand's "Other Fuels" category is inconsistently reported across countries
 
 ### Existing Chart
 
-- [Describe the original visualization here.]
-- [List the main strengths and weaknesses here.]
+![Original IEA Chart — Total Final Consumption mix by fuel and end-use sector in Southeast Asia, 2024](images/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024.png)
+
+- Dual-panel, 100% stacked column chart comparing **fuel supply mix** (left) against **end-use sector demand** (right) across all 10 ASEAN nations
+- Strengths: enables direct part-to-whole comparison of energy "DNA" across diverse economies on a shared baseline; tells a clear story of oil/transport dependency vs. bioenergy-to-electricity development divide
+- Weaknesses:
+  - No on-chart legend — colors cannot be decoded without external report tables
+  - Two different category systems (fuel vs. sector) shown side by side increases cognitive load
+  - Percentages hide absolute consumption volume differences between countries
+  - Non-baseline stacked segments (e.g. coal, electricity) are hard to compare across countries
+  - Heavy reliance on color with minimal annotation slows interpretation and reduces accessibility
 
 ## Visualization Critique
 
