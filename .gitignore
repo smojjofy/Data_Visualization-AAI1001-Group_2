@@ -5,7 +5,9 @@
 .positai
 _site/
 proposal_files/
+presentation_files/
 .DS_Store
+CONTEXT.html
 
 // Ignore _yaml and scripts and index.qmd. Not necessary for this project
 _quarto.yml

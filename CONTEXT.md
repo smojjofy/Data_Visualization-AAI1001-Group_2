@@ -14,7 +14,7 @@ This project critiques and improves an existing visualization of Southeast Asia'
 2. **Document data and code** to ensure absolute clarity, transparency, and reproducibility.
 3. **Collaborate effectively** as a team to execute a complete, version-controlled data workflow.
 
-**Deliverable:** A fully reproducible Quarto document (`index.qmd`) that documents the critique, data pipeline, improved visualizations, and analytical insights, deployed via GitHub Pages.
+**Deliverable:** A fully reproducible Quarto document (`presentation.qmd`) that documents the critique, data pipeline, improved visualizations, and analytical insights, deployed and viewable by .html on any browser.
 
 ---
 
@@ -69,7 +69,7 @@ This project critiques and improves an existing visualization of Southeast Asia'
 | **Data Handling** | `tidyverse`, `readr`, `dplyr`, or `pandas`/`polars` |
 | **Path Management** | `here::here()` or `pathlib` (NO hard-coded absolute paths) |
 | **Version Control** | Git + GitHub (branch-based workflow) |
-| **Deployment** | GitHub Pages via Quarto Actions (`quarto publish gh-pages`) |
+| **Deployment** | Quarto Rendering into a .html
 
 ---
 
@@ -90,7 +90,6 @@ This project critiques and improves an existing visualization of Southeast Asia'
 │   └── workflows/
 │       └── publish.yml          # Quarto rendering & GH Pages deployment
 ├── _quarto.yml                  # Global project configuration
-├── index.qmd                    # Final reproducible report
 ├── proposal.qmd                 # Proposal and project plan
 ├── CONTEXT.md                   # This file
 ├── README.md                    # Public-facing project overview
@@ -106,7 +105,6 @@ Use this repository from the project root (`Data_Visualization-AAI1001-Group_2`)
 - `scripts/`: R pipeline scripts that read from `data/` and write cleaned outputs back to `data/` or images to `images/`.
 - `images/`: generated figures for the report.
 - `_quarto.yml`: Quarto site settings and render options.
-- `index.qmd`: final reproducible report to render with Quarto.
 - `proposal.qmd`: project proposal and critique draft.
 - `.github/workflows/publish.yml`: GitHub Actions workflow for rendering and publishing.
 - `README.md`: repo overview and team details.
