@@ -33,16 +33,43 @@ This presentation documents a critique and improvement of an existing visualizat
 
 ### Existing Chart
 
-- [Describe the original visualization here.]
-- [List the main strengths and weaknesses here.]
+- Original visualization: a dual-panel 100% stacked bar chart comparing Southeast Asian countries by fuel mix and end-use sector mix.
+- It is effective for a broad regional overview, but less effective for detailed comparison.
 
-## Visualization Critique
+## Critical Analysis - What Works
 
-### Key Issues to Address
+- **S1:** Compact regional overview across all ten ASEAN countries
+- **S2:** Useful dual-panel structure linking fuel mix and end-use sector mix
+- **S3:** 100% stacked format supports proportional comparison
 
-- [Issue 1]
-- [Issue 2]
-- [Issue 3]
+Key message: the original chart is useful as a broad regional overview, but it has limitations for detailed comparison.
+
+## Critical Analysis - Key Weaknesses
+
+- **W1-W2:** Two category systems increase cognitive load, and stacked segments are difficult to compare precisely across countries.
+- **W3:** The percentage-only scale hides differences in absolute energy volume.
+- **W4:** Heavy reliance on colour and legend-reading affects accessibility.
+- **W5-W6:** Limited annotation and default ordering do not support specific analytical questions well.
+
+## Proposed Improvements
+
+| Weakness | Improvement |
+|---|---|
+| W1 | Clearer separation of fuel and sector panels |
+| W2 | Horizontal layout or aligned comparison design |
+| W3 | Data note explaining the percentage-only limitation |
+| W4 | Colourblind-safe palette and cleaner legend |
+| W5 | Selective annotations and callouts |
+| W6 | Sort countries by a meaningful analytical metric |
+
+## Redesign Direction
+
+- Keep the original chart's regional comparison purpose.
+- Preserve the dual analytical lens: fuel mix and end-use sector.
+- Improve readability using aligned panels or a horizontal structure.
+- Improve accessibility through better colour and labelling.
+- Improve storytelling using annotations and meaningful ordering.
+- Include a caption noting that the chart is based on a structurally faithful synthetic proxy of the original IEA visualization.
 
 ## Analysis Plan
 
