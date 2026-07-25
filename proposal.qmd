@@ -264,12 +264,10 @@ There are no metadata rows, no merged headers, and no block separators to skip â
 Below is a summary of the data quality challenges identified during the initial data inspection, along with the planned mitigation strategies.
 
 | ID | Issue Description | Severity | Planned Decision / Mitigation |
-|------------------|------------------|------------------|------------------|
-| **C1** | Data manually transcribed from interactive web tooltips. Minor human-in-the-loop transcription errors are possible, but mitigated by 100% sum-check assertions and multiple cross-verification rounds. | High | Preserve the exact decimal precision captured from the interactive interface. Validate 100% sums programmatically using `stopifnot()` and disclose transcription as a minor residual risk in the final report. |
-| **C2** | The fuel-mix category set is not consistent across countries: Thailand includes an "Other Fuels" category (1.0%) that no other country has a nonzero value for. This reflects the source chart's shared legend, where small segments are likely omitted from display for most countries rather than genuinely absent. | Medium | Treat "Other Fuels" as a valid category for all 10 countries, explicitly filling in 0 for countries where it doesn't currently appear, before pivoting to wide format. Document this assumption in code comments. |
-| **C3** | The dataset is a single cross-sectional snapshot (2024 only). No time-series comparison is possible from this source alone. | Medium | Scope the analysis explicitly to a 2024 cross-country comparison; do not attempt trend claims from this dataset. If trend analysis is later required, a second dataset (e.g. the 2015 comparison shown elsewhere in the same IEA report) would need to be separately extracted. |
-| **C4** | Timor-Leste, ASEAN's newest member, is absent from the dataset. | Low | Not an extraction error â€” the source chart's own notes state data is unavailable for Timor-Leste. State this explicitly in the report so it reads as a documented source limitation rather than an oversight. |
-| **C5** | Country naming follows IEA's exact chart conventions (e.g. "Lao DPR", "Viet Nam" with a space, "Brunei Darussalam" in full), which may not match the conventions used by other datasets if joined later. | Low | Keep IEA's naming as the canonical form for this proposal. If a second dataset is joined in a later phase, standardize both to a single lookup table (e.g. ISO-3 country codes) at that point. |
+|----|----|----|----|
+| **C1** | \[Describe challenge 1, e.g., missing column markers\] | High | \[Describe mitigation, e.g., Extract blocks independently using known start rows\] |
+| **C2** | \[Describe challenge 2, e.g., inconsistent date formats\] | Medium | \[Describe mitigation, e.g., Standardize using `lubridate`\] |
+| **C3** | \[Describe challenge 3, e.g., hidden aggregate rows\] | Low | \[Describe mitigation, e.g., Filter out rows containing 'Total' in label column\] |
 
 ------------------------------------------------------------------------
 

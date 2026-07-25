@@ -73,15 +73,9 @@ Key message: the original chart is useful as a broad regional overview, but it h
 
 ## Analysis Plan
 
-- [Describe the descriptive analysis to be performed.]
-- [Describe any comparisons, summaries, or validation checks.]
-- [Describe the insight questions the team wants to answer.]
-
-## Design Direction
-
-- [Describe the improved chart concept.]
-- [Describe the intended encodings, layout, and annotations.]
-- [Describe accessibility and readability considerations.]
+- Summarize the fuel mix and end-use sector mix for each ASEAN country using the percentage shares in the dataset, and identify the dominant categories in each case.
+- Compare countries by fossil-fuel reliance, low-carbon share, and sector concentration in industry, transport, and buildings, while validating that each country-dimension pair sums to 100%.
+- Address key questions: which countries are most dependent on oil and transport, which are more industry-driven or building-driven, and whether stronger fossil-fuel reliance is linked to greater exposure to energy price shocks.
 
 ## Reproducible Workflow
 
