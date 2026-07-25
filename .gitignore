@@ -16,3 +16,4 @@ index.qmd
 /.quarto/
 **/*.quarto_ipynb
 updates.*
+*.zip
