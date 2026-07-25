@@ -353,10 +353,11 @@ knitr::kable(
 #| fig-width: 9
 #| fig-height: 5
 #| dev: png
-ggplot2::ggplot(analysis_summary, ggplot2::aes(
-  x = base::reorder(Country, vulnerability_index),
-  y = vulnerability_index
-)) +
+plot_data <- analysis_summary |>
+  dplyr::arrange(vulnerability_index) |>
+  dplyr::mutate(Country = factor(Country, levels = Country))
+
+ggplot2::ggplot(plot_data, ggplot2::aes(x = Country, y = vulnerability_index)) +
   ggplot2::geom_col(fill = "#1b9e77") +
   ggplot2::coord_flip() +
   ggplot2::labs(
@@ -371,6 +372,7 @@ ggplot2::ggplot(analysis_summary, ggplot2::aes(
 ## Thank You
 
 Thank you for your time.
+
 
 
 
