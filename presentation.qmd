@@ -136,7 +136,7 @@ This presentation documents a critique and improvement of an existing visualizat
 
 ::: {.column width="42%"}
 
-- Load from `data/energy_data.csv` with `here::here()` so the workflow is portable.
+- Load from `data/energy_data.csv` using a project-relative path for portability.
 - Normalize country names, coerce numeric percentages, and set factor levels for stable ordering.
 - Derive indicator-ready metrics (for example, fossil share and industry/consumer-demand shares).
 - Generate plots from this single cleaned object, then render directly to `presentation.qmd`.
@@ -148,9 +148,12 @@ This presentation documents a critique and improvement of an existing visualizat
 ```{r}
 #| label: workflow-prepare
 #| echo: true
-#| eval: false
+#| eval: true
+#| message: false
+#| warning: false
+#| results: "hide"
 energy_data <- readr::read_csv(
-  here::here("data", "energy_data.csv"),
+  file.path("data", "energy_data.csv"),
   show_col_types = FALSE
 ) |>
   dplyr::mutate(
@@ -194,7 +197,10 @@ energy_summary <- energy_data |>
 ```{r}
 #| label: workflow-checks
 #| echo: true
-#| eval: false
+#| eval: true
+#| message: false
+#| warning: false
+#| results: "hide"
 required_cols <- c("Country", "Dimension", "Category", "Percentage")
 stopifnot(all(required_cols %in% names(energy_data)))
 stopifnot(all(!is.na(energy_data$Country)), all(!is.na(energy_data$Dimension)), all(!is.na(energy_data$Category)), all(!is.na(energy_data$Percentage)))
@@ -228,7 +234,7 @@ Applying the Analysis Plan:
 
 if (!exists("energy_data")) {
   energy_data <- readr::read_csv(
-    here::here("data", "energy_data.csv"),
+    file.path("data", "energy_data.csv"),
     show_col_types = FALSE
   )
 }
@@ -332,3 +338,4 @@ ggplot2::ggplot(analysis_summary, ggplot2::aes(
 ## Thank You
 
 Thank you for your time.
+
