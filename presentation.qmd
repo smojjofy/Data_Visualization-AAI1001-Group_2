@@ -13,6 +13,8 @@ format:
 
 ## Team Introduction
 
+## Team Introduction
+
 ```{r}
 #| include: false
 # Global setup chunk for libraries, options, and shared objects.
@@ -109,6 +111,7 @@ Jaison Tan
 After initial general research across ASEAN countries, we narrowed down on energy visualizations as they are often poorly represented.
 
 Our presentation documents a critique and improvement of an existing visualization of Southeast Asia's energy consumption.
+Our presentation documents a critique and improvement of an existing visualization of Southeast Asia's energy consumption.
 
 ## Project Objectives
 
@@ -131,6 +134,11 @@ Our presentation documents a critique and improvement of an existing visualizati
 
 ## Existing Chart {.smaller}
 
+::: {.columns}
+
+::: {.column width="25%"}
+
+<div class="data-chart-note">
 ::: {.columns}
 
 ::: {.column width="25%"}
@@ -223,6 +231,7 @@ Our presentation documents a critique and improvement of an existing visualizati
 ## Redesign Direction
 
 <div style="font-size: 90%;">
+<div style="font-size: 90%;">
 
 - Keep the original chart's regional comparison purpose.
 - Preserve the dual analytical lens: fuel mix and end-use sector.
@@ -236,9 +245,11 @@ Our presentation documents a critique and improvement of an existing visualizati
 ## Analysis Plan
 
 <div style="font-size: 87%;">
+<div style="font-size: 87%;">
 
 - Summarize the fuel mix and end-use sector mix for each ASEAN country using the percentage shares in the dataset, and identify the dominant categories in each case.
 - Compare countries by fossil-fuel reliance, low-carbon share, and sector concentration in industry, transport, and buildings, while validating that each country-dimension pair sums to 100%.
+- Identify each country's dominant fuel and dominant sector, then derive a single overall vulnerability ranking based on the overlap of those dominant shares to compare relative exposure to energy-demand pressure.
 - Identify each country's dominant fuel and dominant sector, then derive a single overall vulnerability ranking based on the overlap of those dominant shares to compare relative exposure to energy-demand pressure.
 
 </div>
@@ -279,11 +290,26 @@ normalize_country_name <- function(country) {
   )
 }
 
+country_levels <- c(
+  "Brunei Darussalam", "Cambodia", "Indonesia", "Lao PDR",
+  "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Vietnam"
+)
+
+normalize_country_name <- function(country) {
+  dplyr::recode(
+    stringr::str_squish(country),
+    "Lao DPR" = "Lao PDR",
+    "Viet Nam" = "Vietnam",
+    .default = stringr::str_squish(country)
+  )
+}
+
 energy_data <- readr::read_csv(
   file.path("data", "energy_data.csv"),
   show_col_types = FALSE
 ) |>
   dplyr::mutate(
+    Country = factor(normalize_country_name(Country), levels = country_levels),
     Country = factor(normalize_country_name(Country), levels = country_levels),
     Percentage = as.numeric(Percentage),
     Dimension = factor(stringr::str_squish(Dimension), levels = c("Fuel", "Sector")),
@@ -335,9 +361,12 @@ sessionInfo()
 :::
 
 ## Final Data Visualization {.smaller}
+## Final Data Visualization {.smaller}
 
 ::: {.columns .final-chart-columns}
+::: {.columns .final-chart-columns}
 
+::: {.column width="30%"}
 ::: {.column width="30%"}
 
 <div class="data-chart-note final-chart-note">
@@ -348,6 +377,7 @@ sessionInfo()
 
 </div>
 
+:::
 :::
 
 ::: {.column width="70%"}
@@ -531,25 +561,33 @@ fuel_top <- analysis_data |>
   dplyr::group_by(Country, Category) |>
   dplyr::summarise(share = sum(Percentage, na.rm = TRUE), .groups = "drop") |>
   dplyr::group_by(Country) |>
+  dplyr::summarise(share = sum(Percentage, na.rm = TRUE), .groups = "drop") |>
+  dplyr::group_by(Country) |>
   dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |>
   dplyr::transmute(
+    Country = as.character(Country),
     Country = as.character(Country),
     dominant_fuel = as.character(Category),
     dominant_fuel_share = share
   )
 
 sector_top <- analysis_data |>
+sector_top <- analysis_data |>
   dplyr::filter(Dimension == "Sector") |>
   dplyr::group_by(Country, Category) |>
+  dplyr::summarise(share = sum(Percentage, na.rm = TRUE), .groups = "drop") |>
+  dplyr::group_by(Country) |>
   dplyr::summarise(share = sum(Percentage, na.rm = TRUE), .groups = "drop") |>
   dplyr::group_by(Country) |>
   dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |>
   dplyr::transmute(
     Country = as.character(Country),
+    Country = as.character(Country),
     dominant_sector = as.character(Category),
     dominant_sector_share = share
   )
 
+analysis_summary <- dplyr::tibble(Country = analysis_country_levels) |>
 analysis_summary <- dplyr::tibble(Country = analysis_country_levels) |>
   dplyr::left_join(fuel_top, by = "Country") |>
   dplyr::left_join(sector_top, by = "Country") |>
@@ -563,10 +601,15 @@ analysis_summary <- dplyr::tibble(Country = analysis_country_levels) |>
 
 ```
 
+
 ```{r}
 #| label: final-vulnerability-plot
 #| eval: true
+#| eval: true
 #| echo: false
+#| fig-width: 12
+#| fig-height: 10
+#| out-width: "100%"
 #| fig-width: 12
 #| fig-height: 10
 #| out-width: "100%"
@@ -574,7 +617,24 @@ analysis_summary <- dplyr::tibble(Country = analysis_country_levels) |>
 #| message: false
 #| warning: false
 
+#| message: false
+#| warning: false
+
 plot_data <- analysis_summary |>
+  dplyr::arrange(desc(vulnerability_index), Country) |>
+  dplyr::mutate(
+    Country = factor(Country, levels = rev(unique(Country))),
+    dominant_sector = dplyr::if_else(
+      dominant_fuel == "N/A" | dominant_sector == "N/A",
+      "N/A",
+      dominant_sector
+    ),
+    dominant_fuel = dplyr::if_else(
+      dominant_fuel == "N/A" | dominant_sector == "N/A",
+      "N/A",
+      dominant_fuel
+    )
+  )
   dplyr::arrange(desc(vulnerability_index), Country) |>
   dplyr::mutate(
     Country = factor(Country, levels = rev(unique(Country))),
