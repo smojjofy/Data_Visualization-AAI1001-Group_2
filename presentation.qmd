@@ -77,12 +77,24 @@ This presentation documents a critique and improvement of an existing visualizat
 
 ## Critical Analysis - Key Weaknesses
 
-| Weakness | How it affects interpretation |
-|---|---|
-| W1-W2 | Two category systems increase mental switching and reduce segment-level comparability. |
-| W3 | Percentage-only values hide total energy scale and may overstate small countries. |
-| W4 | Color decoding dominates, which hurts accessibility and speed. |
-| W5-W6 | Weak ordering and annotation make targeted country comparisons harder. |
+<table>
+  <colgroup>
+    <col style="width: 22%;">
+    <col style="width: 78%;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Weakness</th>
+      <th>How it affects interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>W1-W2</td><td>Two category systems increase mental switching and reduce segment-level comparability.</td></tr>
+    <tr><td>W3</td><td>Percentage-only values hide total energy scale and may overstate small countries.</td></tr>
+    <tr><td>W4</td><td>Color decoding dominates, which hurts accessibility and speed.</td></tr>
+    <tr><td>W5-W6</td><td>Weak ordering and annotation make targeted country comparisons harder.</td></tr>
+  </tbody>
+</table>
 
 ## Proposed Improvements
 
@@ -95,7 +107,9 @@ This presentation documents a critique and improvement of an existing visualizat
 | W5 | Selective annotations and callouts |
 | W6 | Sort countries by a meaningful analytical metric |
 
-## Redesign Direction {.smaller}
+## Redesign Direction
+
+<div style="font-size: 95%;">
 
 - Keep the original chart's regional comparison purpose.
 - Preserve the dual analytical lens: fuel mix and end-use sector.
@@ -104,11 +118,17 @@ This presentation documents a critique and improvement of an existing visualizat
 - Improve storytelling using annotations and meaningful ordering.
 - Include a caption noting that the chart is based on a structurally faithful synthetic proxy of the original IEA visualization.
 
+</div>
+
 ## Analysis Plan
+
+<div style="font-size: 95%;">
 
 - Summarize the fuel mix and end-use sector mix for each ASEAN country using the percentage shares in the dataset, and identify the dominant categories in each case.
 - Compare countries by fossil-fuel reliance, low-carbon share, and sector concentration in industry, transport, and buildings, while validating that each country-dimension pair sums to 100%.
 - Address key questions: which countries are most dependent on oil and transport, which are more industry-driven or building-driven, and whether stronger fossil-fuel reliance is linked to greater exposure to energy price shocks.
+
+</div>
 
 ## Reproducible Workflow {.smaller}
 
@@ -193,8 +213,100 @@ sessionInfo()
 
 :::
 
+## Final Data Chart
+
+Applying the Analysis Plan:
+
+- Fuel view: dominant fuel share and fossil dependence per country.
+- Sector view: dominant demand sector and consumer pressure (transport + buildings).
+- Composite indicator: vulnerability = `oil_share × (transport + buildings) / 100`.
+
+```{r}
+#| label: final-analysis-metrics
+#| echo: true
+#| eval: true
+analysis_metrics <- energy_data |>
+  dplyr::group_by(Country) |>
+  dplyr::summarise(
+    oil_share = sum(Percentage[Dimension == "Fuel" & Category == "Oil"], na.rm = TRUE),
+    fossil_share = sum(Percentage[Dimension == "Fuel" & Category %in% c("Oil", "Coal", "Natural Gas")], na.rm = TRUE),
+    electricity_share = sum(Percentage[Dimension == "Fuel" & Category == "Electricity"], na.rm = TRUE),
+    industry_share = sum(Percentage[Dimension == "Sector" & Category == "Industry"], na.rm = TRUE),
+    transport_share = sum(Percentage[Dimension == "Sector" & Category == "Transport"], na.rm = TRUE),
+    buildings_share = sum(Percentage[Dimension == "Sector" & Category == "Buildings"], na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(
+    consumer_overhead_share = transport_share + buildings_share,
+    vulnerability_index = round((oil_share * consumer_overhead_share) / 100, 1)
+  )
+
+fuel_top <- energy_data |>
+  dplyr::filter(Dimension == "Fuel") |>
+  dplyr::group_by(Country, Category) |>
+  dplyr::summarise(share = sum(Percentage), .groups = "drop") |>
+  dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |>
+  dplyr::rename(dominant_fuel = Category, dominant_fuel_share = share)
+
+sector_top <- energy_data |>
+  dplyr::filter(Dimension == "Sector") |>
+  dplyr::group_by(Country, Category) |>
+  dplyr::summarise(share = sum(Percentage), .groups = "drop") |>
+  dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |>
+  dplyr::rename(dominant_sector = Category, dominant_sector_share = share)
+
+analysis_summary <- analysis_metrics |>
+  dplyr::left_join(fuel_top, by = "Country") |>
+  dplyr::left_join(sector_top, by = "Country") |>
+  dplyr::arrange(dplyr::desc(vulnerability_index))
+
+knitr::kable(
+  analysis_summary |> head(8) |> dplyr::select(
+    Country,
+    dominant_fuel,
+    round(dominant_fuel_share, 1),
+    dominant_sector,
+    round(dominant_sector_share, 1),
+    round(fossil_share, 1),
+    round(consumer_overhead_share, 1),
+    vulnerability_index
+  ),
+  caption = "Leading countries by fuel dependency, demand pressure, and derived vulnerability",
+  col.names = c(
+    "Country",
+    "Dominant Fuel",
+    "Fuel Share (%)",
+    "Dominant Sector",
+    "Sector Share (%)",
+    "Fossil Share (%)",
+    "Transport + Buildings (%)",
+    "Vulnerability"
+  ),
+  digits = 1
+)
+```
+
+```{r}
+#| label: final-vulnerability-plot
+#| echo: false
+#| fig-width: 9
+#| fig-height: 5
+#| dev: png
+ggplot2::ggplot(analysis_summary, ggplot2::aes(
+  x = dplyr::reorder(Country, vulnerability_index),
+  y = vulnerability_index
+)) +
+  ggplot2::geom_col(fill = "#1b9e77") +
+  ggplot2::coord_flip() +
+  ggplot2::labs(
+    title = "Vulnerability Index by Country",
+    subtitle = "Oil share × (Transport + Buildings) / 100",
+    x = NULL,
+    y = "Vulnerability index"
+  ) +
+  ggplot2::theme_minimal(base_size = 12)
+```
+
 ## Thank You
 
-Thank you for your attention.
-
-Questions?
+Thank you for your time.
