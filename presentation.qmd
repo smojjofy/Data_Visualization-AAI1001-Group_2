@@ -219,17 +219,93 @@ sessionInfo()
 
 :::
 
-## Final Data Chart
+## Final Data Code {.smaller}
 
-Applying the Analysis Plan:
+::: {.columns}
 
-- Fuel view: dominant fuel share and fossil dependence per country.
-- Sector view: dominant demand sector and consumer pressure (transport + buildings).
-- Composite indicator: vulnerability = `oil_share × (transport + buildings) / 100`.
+::: {.column width="42%"}
+
+<div style="font-size: 90%;">
+
+Applying the analysis workflow with readable structure:
+
+- Prepare data and validate structure.
+- Derive country-level indicators (fossil dependence, sector concentration).
+- Build a compact ranking table and a vulnerability metric.
+- Render final outputs for presentation review.
+
+</div>
+
+::: 
+
+::: {.column width="58%"}
+
+```{r}
+#| label: final-data-code
+#| eval: false
+#| echo: true
+#| message: false
+#| warning: false
+
+# prepare Energy data
+energy_data <- prepare_energy_data(...)
+
+# aggregate metrics
+analysis_metrics <- energy_data |>
+  dplyr::group_by(...) |>
+  dplyr::summarise(...)
+
+# compute top categories
+fuel_top <- energy_data |>
+  dplyr::filter(Dimension == "Fuel") |>
+  dplyr::group_by(...) |>
+  dplyr::summarise(...) |>
+  dplyr::slice_max(...) |>
+  dplyr::transmute(...)
+
+sector_top <- energy_data |>
+  dplyr::filter(Dimension == "Sector") |>
+  dplyr::group_by(...) |>
+  dplyr::summarise(...) |>
+  dplyr::slice_max(...) |>
+  dplyr::transmute(...)
+
+analysis_summary <- analysis_metrics |>
+  dplyr::left_join(fuel_top, by = "Country") |>
+  dplyr::left_join(sector_top, by = "Country")
+
+# render summary table + chart
+knitr::kable(...)
+ggplot2::ggplot(...) + ...
+```
+
+:::
+
+:::
+
+## Final Data Chart {.smaller}
+
+::: {.columns}
+
+::: {.column width="42%"}
+
+<div style="font-size: 88%;">
+
+Final outputs from the analysis pipeline:
+
+- Ranked countries by dominant fuel and sector pressure.
+- Dominant fuel share, dominant sector share, and derived vulnerability.
+- Plot ranks by the combined vulnerability index.
+
+</div>
+
+::: 
+
+::: {.column width="58%"}
 
 ```{r}
 #| label: final-analysis-metrics
-#| echo: true
+#| echo: false
 #| eval: true
 
 prepare_energy_data <- function(filepath = file.path("data", "energy_data.csv")) {
@@ -346,7 +422,6 @@ knitr::kable(
   digits = 1
 )
 ```
-
 ```{r}
 #| label: final-vulnerability-plot
 #| echo: false
@@ -369,10 +444,10 @@ ggplot2::ggplot(plot_data, ggplot2::aes(x = Country, y = vulnerability_index)) +
   ggplot2::theme_minimal(base_size = 12)
 ```
 
+:::
+
+:::
+
 ## Thank You
 
 Thank you for your time.
-
-
-
-
