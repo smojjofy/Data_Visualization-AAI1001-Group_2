@@ -247,18 +247,21 @@ prepare_energy_data <- function(filepath = file.path("data", "energy_data.csv"))
 if (!exists("energy_data")) {
   energy_data <- prepare_energy_data()
 }
-energy_data <- prepare_energy_data() |> dplyr::mutate(
-  Country = factor(
-    Country,
-    levels = c(
-      "Brunei Darussalam", "Cambodia", "Indonesia", "Lao DPR",
-      "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Viet Nam"
+
+energy_data <- prepare_energy_data() |>
+  dplyr::mutate(
+    Country = as.character(Country),
+    Country = factor(
+      Country,
+      levels = c(
+        "Brunei Darussalam", "Cambodia", "Indonesia", "Lao DPR",
+        "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Viet Nam"
+      )
     )
   )
-)
 
-analysis_metrics <- energy_data |> 
-  dplyr::group_by(Country) |> 
+analysis_metrics <- energy_data |>
+  dplyr::group_by(Country) |>
   dplyr::summarise(
     oil_share = sum(Percentage[Dimension == "Fuel" & Category == "Oil"], na.rm = TRUE),
     fossil_share = sum(Percentage[Dimension == "Fuel" & Category %in% c("Oil", "Coal", "Natural Gas")], na.rm = TRUE),
@@ -267,67 +270,79 @@ analysis_metrics <- energy_data |>
     transport_share = sum(Percentage[Dimension == "Sector" & Category == "Transport"], na.rm = TRUE),
     buildings_share = sum(Percentage[Dimension == "Sector" & Category == "Buildings"], na.rm = TRUE),
     .groups = "drop"
-  ) |> 
+  ) |>
   dplyr::mutate(
     consumer_overhead_share = transport_share + buildings_share,
     vulnerability_index = round((oil_share * consumer_overhead_share) / 100, 1)
   )
 
-fuel_top <- energy_data |> 
-  dplyr::filter(Dimension == "Fuel") |> 
-  dplyr::group_by(Country, Category) |> 
-  dplyr::summarise(share = sum(Percentage), .groups = "drop") |> 
-  dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |> 
+fuel_top <- energy_data |>
+  dplyr::filter(Dimension == "Fuel") |>
+  dplyr::group_by(Country, Category) |>
+  dplyr::summarise(share = sum(Percentage), .groups = "drop") |>
+  dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |>
   dplyr::transmute(
-    Country,
-    dominant_fuel = Category,
+    Country = Country,
+    dominant_fuel = as.character(Category),
     dominant_fuel_share = share
   )
 
-sector_top <- energy_data |> 
-  dplyr::filter(Dimension == "Sector") |> 
-  dplyr::group_by(Country, Category) |> 
-  dplyr::summarise(share = sum(Percentage), .groups = "drop") |> 
-  dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |> 
+sector_top <- energy_data |>
+  dplyr::filter(Dimension == "Sector") |>
+  dplyr::group_by(Country, Category) |>
+  dplyr::summarise(share = sum(Percentage), .groups = "drop") |>
+  dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |>
   dplyr::transmute(
-    Country,
-    dominant_sector = Category,
+    Country = Country,
+    dominant_sector = as.character(Category),
     dominant_sector_share = share
   )
 
-analysis_summary <- analysis_metrics |> 
-  dplyr::left_join(fuel_top, by = "Country") |> 
-  dplyr::left_join(sector_top, by = "Country") |> 
-  dplyr::mutate(
-    dominant_fuel_share = dplyr::coalesce(dominant_fuel_share, 0),
-    dominant_sector_share = dplyr::coalesce(dominant_sector_share, 0),
-    dominant_fuel = dplyr::coalesce(dominant_fuel, "N/A"),
-    dominant_sector = dplyr::coalesce(dominant_sector, "N/A")
-  ) |> 
-  dplyr::arrange(dplyr::desc(vulnerability_index))
+analysis_summary <- analysis_metrics |>
+  dplyr::left_join(fuel_top, by = "Country") |>
+  dplyr::left_join(sector_top, by = "Country")
+
+if (!"dominant_fuel_share" %in% names(analysis_summary)) {
+  analysis_summary$dominant_fuel_share <- NA_real_
+}
+if (!"dominant_sector_share" %in% names(analysis_summary)) {
+  analysis_summary$dominant_sector_share <- NA_real_
+}
+if (!"dominant_fuel" %in% names(analysis_summary)) {
+  analysis_summary$dominant_fuel <- NA_character_
+}
+if (!"dominant_sector" %in% names(analysis_summary)) {
+  analysis_summary$dominant_sector <- NA_character_
+}
+
+analysis_summary <- analysis_summary[order(-analysis_summary$vulnerability_index), ]
+
+analysis_summary_table <- data.frame(
+  Country = as.character(analysis_summary$Country),
+  Dominant_Fuel = ifelse(is.na(analysis_summary$dominant_fuel), "N/A", analysis_summary$dominant_fuel),
+  Fuel_Share = round(dplyr::coalesce(as.numeric(analysis_summary$dominant_fuel_share), 0), 1),
+  Dominant_Sector = ifelse(is.na(analysis_summary$dominant_sector), "N/A", analysis_summary$dominant_sector),
+  Sector_Share = round(dplyr::coalesce(as.numeric(analysis_summary$dominant_sector_share), 0), 1),
+  Fossil_Share = round(analysis_summary$fossil_share, 1),
+  Transport_Buildings = round(analysis_summary$consumer_overhead_share, 1),
+  Vulnerability = analysis_summary$vulnerability_index,
+  stringsAsFactors = FALSE
+)
+
+colnames(analysis_summary_table) <- c(
+  "Country",
+  "Dominant Fuel",
+  "Fuel Share (%)",
+  "Dominant Sector",
+  "Sector Share (%)",
+  "Fossil Share (%)",
+  "Transport + Buildings (%)",
+  "Vulnerability"
+)
 
 knitr::kable(
-  analysis_summary |> head(8) |> dplyr::select(
-    Country,
-    dominant_fuel,
-    round(dominant_fuel_share, 1),
-    dominant_sector,
-    round(dominant_sector_share, 1),
-    round(fossil_share, 1),
-    round(consumer_overhead_share, 1),
-    vulnerability_index
-  ),
+  head(analysis_summary_table, 8),
   caption = "Leading countries by fuel dependency, demand pressure, and derived vulnerability",
-  col.names = c(
-    "Country",
-    "Dominant Fuel",
-    "Fuel Share (%)",
-    "Dominant Sector",
-    "Sector Share (%)",
-    "Fossil Share (%)",
-    "Transport + Buildings (%)",
-    "Vulnerability"
-  ),
   digits = 1
 )
 ```
