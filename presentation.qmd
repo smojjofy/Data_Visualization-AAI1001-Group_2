@@ -10,12 +10,96 @@ format:
     embed-resources: true
 ---
 
+
+
+## Project Overview
+
 ```{r}
 #| include: false
 # Global setup chunk for libraries, options, and shared objects.
+
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(stringr)
+
+library(tidyr)
+library(forcats)
+
+data_chart_text_size <- 16
+data_chart_axis_text_size <- 17
+data_chart_legend_text_size <- 16
+data_chart_geom_text_size <- 4
+data_chart_theme <- function(legend_position = "right", axis_x_angle = 0, axis_x_hjust = 1) {
+  ggplot2::theme_minimal(base_size = data_chart_text_size) +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(size = data_chart_text_size + 2, face = "bold"),
+      plot.subtitle = ggplot2::element_text(size = data_chart_text_size),
+      axis.title = ggplot2::element_text(size = data_chart_axis_text_size),
+      axis.text = ggplot2::element_text(size = data_chart_axis_text_size - 1),
+      axis.text.x = ggplot2::element_text(angle = axis_x_angle, hjust = axis_x_hjust, size = data_chart_axis_text_size - 1),
+      legend.title = ggplot2::element_text(size = data_chart_legend_text_size),
+      legend.text = ggplot2::element_text(size = data_chart_legend_text_size),
+      strip.text = ggplot2::element_text(size = data_chart_axis_text_size - 1, face = "bold"),
+      legend.position = legend_position
+    )
+}
 ```
 
-## Project Overview
+```{=html}
+<style>
+  :root {
+    --data-chart-text-size: 90%;
+  }
+  .data-chart-note {
+    font-size: var(--data-chart-text-size);
+  }
+  .thank-you-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    width: 100%;
+  }
+  .thank-you-center h1 {
+    margin: 0;
+    text-align: center;
+  }
+  section.thank-you > h2 {
+    display: none;
+  }
+  section.thank-you {
+    padding-top: 0;
+  }
+  .final-chart-columns {
+    align-items: flex-start;
+  }
+  .final-chart-columns .column {
+    padding-top: 0;
+  }
+  .final-chart-note {
+    margin-top: 0.15rem;
+    line-height: 1.35;
+    padding-right: 0.35rem;
+  }
+  .final-chart-note ul {
+    margin-top: 0.35rem;
+    margin-bottom: 0.25rem;
+    padding-left: 1rem;
+  }
+  .final-chart-note li + li {
+    margin-top: 0.2rem;
+  }
+  .final-chart-note.final-left {
+    font-size: 95%;
+  }
+  .final-chart-note.final-left ul {
+    margin-top: 0.5rem;
+  }
+
+</style>
+```
+
 
 This presentation documents a critique and improvement of an existing visualization of Southeast Asia's energy consumption patterns.
 
@@ -34,10 +118,26 @@ This presentation documents a critique and improvement of an existing visualizat
 
 ## Existing Chart {.smaller}
 
-![Original IEA chart - "Total Final Consumption mix by fuel and end-use sector in Southeast Asia, 2024"](images/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024.png){width="85%" fig-align="center"}
+::: {.columns}
+
+::: {.column width="25%"}
+
+<div class="data-chart-note">
 
 - Dual-panel 100% stacked bars: fuel mix and end-use sector mix across ASEAN.
 - Values are normalized to 100% for each country and panel.
+
+</div>
+
+:::
+
+::: {.column width="75%"}
+
+![Original IEA chart - "Total Final Consumption mix by fuel and end-use sector in Southeast Asia, 2024"](images/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024.png){width="100%" fig-align="center"}
+
+:::
+
+:::
 
 ## Existing Chart: Strengths & Weaknesses {.smaller}
 
@@ -109,7 +209,7 @@ This presentation documents a critique and improvement of an existing visualizat
 
 ## Redesign Direction
 
-<div style="font-size: 95%;">
+<div style="font-size: 90%;">
 
 - Keep the original chart's regional comparison purpose.
 - Preserve the dual analytical lens: fuel mix and end-use sector.
@@ -122,11 +222,11 @@ This presentation documents a critique and improvement of an existing visualizat
 
 ## Analysis Plan
 
-<div style="font-size: 95%;">
+<div style="font-size: 87%;">
 
 - Summarize the fuel mix and end-use sector mix for each ASEAN country using the percentage shares in the dataset, and identify the dominant categories in each case.
 - Compare countries by fossil-fuel reliance, low-carbon share, and sector concentration in industry, transport, and buildings, while validating that each country-dimension pair sums to 100%.
-- Address key questions: which countries are most dependent on oil and transport, which are more industry-driven or building-driven, and whether stronger fossil-fuel reliance is linked to greater exposure to energy price shocks.
+- Identify each country's dominant fuel and dominant sector, then derive a single overall vulnerability ranking based on the overlap of those dominant shares to compare relative exposure to energy-demand pressure.
 
 </div>
 
@@ -152,21 +252,29 @@ This presentation documents a critique and improvement of an existing visualizat
 #| message: false
 #| warning: false
 #| results: "hide"
+country_levels <- c(
+  "Brunei Darussalam", "Cambodia", "Indonesia", "Lao PDR",
+  "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Vietnam"
+)
+
+normalize_country_name <- function(country) {
+  dplyr::recode(
+    stringr::str_squish(country),
+    "Lao DPR" = "Lao PDR",
+    "Viet Nam" = "Vietnam",
+    .default = stringr::str_squish(country)
+  )
+}
+
 energy_data <- readr::read_csv(
   file.path("data", "energy_data.csv"),
   show_col_types = FALSE
 ) |>
   dplyr::mutate(
-    Country = stringr::str_squish(Country),
+    Country = factor(normalize_country_name(Country), levels = country_levels),
     Percentage = as.numeric(Percentage),
-    Dimension = factor(Dimension, levels = c("Fuel", "Sector")),
-    Country = factor(
-      Country,
-      levels = c(
-        "Brunei Darussalam", "Cambodia", "Indonesia", "Lao DPR",
-        "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Viet Nam"
-      )
-    )
+    Dimension = factor(stringr::str_squish(Dimension), levels = c("Fuel", "Sector")),
+    Category = factor(stringr::str_squish(Category))
   )
 
 energy_summary <- energy_data |>
@@ -219,235 +327,329 @@ sessionInfo()
 
 :::
 
-## Final Data Code {.smaller}
+## Final Data Visualization {.smaller}
 
-::: {.columns}
+::: {.columns .final-chart-columns}
 
-::: {.column width="42%"}
+::: {.column width="30%"}
 
-<div style="font-size: 90%;">
+<div class="data-chart-note final-chart-note">
 
-Applying the analysis workflow with readable structure:
-
-- Prepare data and validate structure.
-- Derive country-level indicators (fossil dependence, sector concentration).
-- Build a compact ranking table and a vulnerability metric.
-- Render final outputs for presentation review.
+- Dual-panel 100% stacked bars for fuel mix and sector mix across ASEAN.
+- Country ordering is fixed for fair cross-country comparison.
+- Values are normalized by panel and reflect extracted percentage shares.
 
 </div>
 
-::: 
+:::
 
-::: {.column width="58%"}
+::: {.column width="70%"}
 
 ```{r}
-#| label: final-data-code
-#| eval: false
-#| echo: true
+#| label: load-energy-data
+#| eval: true
+#| echo: false
 #| message: false
 #| warning: false
 
-# prepare Energy data
-energy_data <- prepare_energy_data(...)
+country_levels <- c(
+  "Brunei Darussalam", "Cambodia", "Indonesia", "Lao PDR",
+  "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Vietnam"
+)
 
-# aggregate metrics
-analysis_metrics <- energy_data |>
-  dplyr::group_by(...) |>
-  dplyr::summarise(...)
+normalize_country_name <- function(country) {
+  dplyr::recode(
+    stringr::str_squish(country),
+    "Lao DPR" = "Lao PDR",
+    "Viet Nam" = "Vietnam",
+    .default = stringr::str_squish(country)
+  )
+}
 
-# compute top categories
-fuel_top <- energy_data |>
-  dplyr::filter(Dimension == "Fuel") |>
-  dplyr::group_by(...) |>
-  dplyr::summarise(...) |>
-  dplyr::slice_max(...) |>
-  dplyr::transmute(...)
-
-sector_top <- energy_data |>
-  dplyr::filter(Dimension == "Sector") |>
-  dplyr::group_by(...) |>
-  dplyr::summarise(...) |>
-  dplyr::slice_max(...) |>
-  dplyr::transmute(...)
-
-analysis_summary <- analysis_metrics |>
-  dplyr::left_join(fuel_top, by = "Country") |>
-  dplyr::left_join(sector_top, by = "Country")
-
-# render summary table + chart
-knitr::kable(...)
-ggplot2::ggplot(...) + ...
-```
-
-:::
-
-:::
-
-## Final Data Chart {.smaller}
-
-::: {.columns}
-
-::: {.column width="42%"}
-
-<div style="font-size: 88%;">
-
-Final outputs from the analysis pipeline:
-
-- Ranked countries by dominant fuel and sector pressure.
-- Dominant fuel share, dominant sector share, and derived vulnerability.
-- Plot ranks by the combined vulnerability index.
-
-</div>
-
-::: 
-
-::: {.column width="58%"}
-
-```{r}
-#| label: final-analysis-metrics
-#| echo: false
-#| eval: true
-
-prepare_energy_data <- function(filepath = file.path("data", "energy_data.csv")) {
+load_energy_data <- function(filepath = file.path("data", "energy_data.csv")) {
   d <- readr::read_csv(filepath, show_col_types = FALSE)
   dplyr::mutate(
     d,
-    Country = stringr::str_squish(Country),
-    Category = stringr::str_squish(Category),
-    Dimension = stringr::str_squish(Dimension),
-    Percentage = as.numeric(Percentage),
-    Dimension = factor(Dimension, levels = c("Fuel", "Sector"))
+    dplyr::across(where(is.character), stringr::str_squish),
+    Country = factor(normalize_country_name(Country), levels = country_levels),
+    Dimension = factor(Dimension, levels = c("Fuel", "Sector")),
+    Category = factor(Category),
+    Percentage = as.numeric(Percentage)
   )
 }
 
 if (!exists("energy_data")) {
-  energy_data <- prepare_energy_data()
+  energy_data <- load_energy_data()
 }
 
-energy_data <- prepare_energy_data() |>
+energy_data <- energy_data |>
   dplyr::mutate(
-    Country = as.character(Country),
-    Country = factor(
-      Country,
-      levels = c(
-        "Brunei Darussalam", "Cambodia", "Indonesia", "Lao DPR",
-        "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Viet Nam"
-      )
-    )
+    dplyr::across(where(is.character), stringr::str_squish),
+    Country = factor(normalize_country_name(Country), levels = country_levels),
+    Dimension = factor(
+      stringr::str_squish(as.character(Dimension)),
+      levels = c("Fuel", "Sector")
+    ),
+    Category = factor(stringr::str_squish(as.character(Category))),
+    Percentage = as.numeric(Percentage)
+  ) |>
+  dplyr::arrange(Dimension, Country, Category)
+```
+
+```{r}
+#| label: validate-aggregate-energy-data
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+validation_tbl <- energy_data |>
+  dplyr::group_by(Country, Dimension) |>
+  dplyr::summarise(
+    Total_Percentage = sum(Percentage, na.rm = TRUE),
+    .groups = "drop"
   )
 
-analysis_metrics <- energy_data |>
+country_metrics <- energy_data |>
   dplyr::group_by(Country) |>
   dplyr::summarise(
-    oil_share = sum(Percentage[Dimension == "Fuel" & Category == "Oil"], na.rm = TRUE),
-    fossil_share = sum(Percentage[Dimension == "Fuel" & Category %in% c("Oil", "Coal", "Natural Gas")], na.rm = TRUE),
+    fossil_fuel_share = sum(Percentage[Dimension == "Fuel" & Category %in% c("Oil", "Coal", "Natural Gas")], na.rm = TRUE),
     electricity_share = sum(Percentage[Dimension == "Fuel" & Category == "Electricity"], na.rm = TRUE),
     industry_share = sum(Percentage[Dimension == "Sector" & Category == "Industry"], na.rm = TRUE),
-    transport_share = sum(Percentage[Dimension == "Sector" & Category == "Transport"], na.rm = TRUE),
-    buildings_share = sum(Percentage[Dimension == "Sector" & Category == "Buildings"], na.rm = TRUE),
     .groups = "drop"
-  ) |>
-  dplyr::mutate(
-    consumer_overhead_share = transport_share + buildings_share,
-    vulnerability_index = round((oil_share * consumer_overhead_share) / 100, 1)
   )
 
-fuel_top <- energy_data |>
+stopifnot(all(abs(validation_tbl$Total_Percentage - 100) < 1e-6))
+stopifnot(all(country_metrics$Country %in% energy_data$Country))
+```
+
+```{r}
+#| label: plot-energy-composition
+#| echo: false
+#| eval: true
+#| fig-width: 12
+#| fig-height: 10
+#| out-width: "100%"
+#| fig-align: center
+#| dev: png
+#| message: false
+#| warning: false
+
+plot_data <- energy_data |>
+  dplyr::arrange(Dimension, Country, Category) |>
+  dplyr::mutate(
+    Country = factor(as.character(Country), levels = country_levels)
+  )
+
+fuel_colors <- c(
+  "Oil" = "#d95f02",
+  "Coal" = "#7570b3",
+  "Natural Gas" = "#1b9e77",
+  "Bioenergy" = "#66a61e",
+  "Electricity" = "#e7298a",
+  "Other Fuels" = "#666666"
+)
+
+sector_colors <- c(
+  "Industry" = "#1f78b4",
+  "Transport" = "#e6ab02",
+  "Buildings" = "#66c2a5",
+  "Other" = "#8da0cb"
+)
+
+plot_colors <- c(fuel_colors, sector_colors)
+
+ggplot2::ggplot(
+  plot_data,
+  ggplot2::aes(x = Percentage, y = Country, fill = Category)
+) +
+  ggplot2::geom_col(width = 0.8, colour = "white", linewidth = 0.2) +
+  ggplot2::facet_wrap(~ Dimension, ncol = 2) +
+  ggplot2::scale_x_continuous(
+    limits = c(0, 100),
+    labels = function(x) paste0(x, "%")
+  ) +
+  ggplot2::scale_fill_manual(values = plot_colors) +
+  ggplot2::labs(
+    title = "Southeast Asia final energy consumption mix by country",
+    subtitle = "Fuel and sector composition, 2024",
+    x = "Share of final energy consumption (%)",
+    y = NULL,
+    fill = "Category",
+    caption = "Data note: Exact percentage shares extracted from IEA interactive chart tooltips (2024)."
+  ) +
+  data_chart_theme(legend_position = "bottom") +
+  ggplot2::theme(
+    panel.grid.major.y = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    plot.margin = ggplot2::margin(5, 5, 5, 5)
+  )
+```
+
+:::
+
+:::
+
+## Final Data Analysis {.smaller}
+
+::: {.columns .final-chart-columns}
+
+::: {.column width="30%"}
+
+<div class="data-chart-note final-chart-note">
+
+- Ranks countries by how vulnerable each country is across its leading fuel and leading sector.
+- Bar fill is **Dominant Fuel** and text labels indicate the **Dominant Sector**.
+
+</div>
+
+:::
+
+::: {.column width="70%"}
+
+```{r}
+#| label: final-analysis-metrics
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+analysis_country_levels <- c(
+  "Brunei Darussalam", "Cambodia", "Indonesia", "Lao PDR",
+  "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Vietnam"
+)
+
+analysis_data <- energy_data |>
+  dplyr::mutate(
+    Country = dplyr::coalesce(
+      as.character(normalize_country_name(as.character(Country))),
+      as.character(Country)
+    ),
+    Dimension = stringr::str_squish(as.character(Dimension)),
+    Category = stringr::str_squish(as.character(Category)),
+    Percentage = as.numeric(Percentage)
+  ) |>
+  dplyr::filter(!is.na(Country), !is.na(Dimension), !is.na(Category))
+
+fuel_top <- analysis_data |>
   dplyr::filter(Dimension == "Fuel") |>
   dplyr::group_by(Country, Category) |>
-  dplyr::summarise(share = sum(Percentage), .groups = "drop") |>
+  dplyr::summarise(share = sum(Percentage, na.rm = TRUE), .groups = "drop") |>
+  dplyr::group_by(Country) |>
   dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |>
   dplyr::transmute(
-    Country = Country,
+    Country = as.character(Country),
     dominant_fuel = as.character(Category),
     dominant_fuel_share = share
   )
 
-sector_top <- energy_data |>
+sector_top <- analysis_data |>
   dplyr::filter(Dimension == "Sector") |>
   dplyr::group_by(Country, Category) |>
-  dplyr::summarise(share = sum(Percentage), .groups = "drop") |>
+  dplyr::summarise(share = sum(Percentage, na.rm = TRUE), .groups = "drop") |>
+  dplyr::group_by(Country) |>
   dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |>
   dplyr::transmute(
-    Country = Country,
+    Country = as.character(Country),
     dominant_sector = as.character(Category),
     dominant_sector_share = share
   )
 
-analysis_summary <- analysis_metrics |>
+analysis_summary <- dplyr::tibble(Country = analysis_country_levels) |>
   dplyr::left_join(fuel_top, by = "Country") |>
-  dplyr::left_join(sector_top, by = "Country")
+  dplyr::left_join(sector_top, by = "Country") |>
+  dplyr::mutate(
+    dominant_fuel = dplyr::coalesce(dominant_fuel, "N/A"),
+    dominant_sector = dplyr::coalesce(dominant_sector, "N/A"),
+    dominant_fuel_share = dplyr::coalesce(dominant_fuel_share, 0),
+    dominant_sector_share = dplyr::coalesce(dominant_sector_share, 0),
+    vulnerability_index = (dominant_fuel_share * dominant_sector_share) / 100
+  )
 
-if (!"dominant_fuel_share" %in% names(analysis_summary)) {
-  analysis_summary$dominant_fuel_share <- NA_real_
-}
-if (!"dominant_sector_share" %in% names(analysis_summary)) {
-  analysis_summary$dominant_sector_share <- NA_real_
-}
-if (!"dominant_fuel" %in% names(analysis_summary)) {
-  analysis_summary$dominant_fuel <- NA_character_
-}
-if (!"dominant_sector" %in% names(analysis_summary)) {
-  analysis_summary$dominant_sector <- NA_character_
-}
-
-analysis_summary <- analysis_summary[order(-analysis_summary$vulnerability_index), ]
-
-analysis_summary_table <- data.frame(
-  Country = as.character(analysis_summary$Country),
-  Dominant_Fuel = ifelse(is.na(analysis_summary$dominant_fuel), "N/A", analysis_summary$dominant_fuel),
-  Fuel_Share = round(dplyr::coalesce(as.numeric(analysis_summary$dominant_fuel_share), 0), 1),
-  Dominant_Sector = ifelse(is.na(analysis_summary$dominant_sector), "N/A", analysis_summary$dominant_sector),
-  Sector_Share = round(dplyr::coalesce(as.numeric(analysis_summary$dominant_sector_share), 0), 1),
-  Fossil_Share = round(analysis_summary$fossil_share, 1),
-  Transport_Buildings = round(analysis_summary$consumer_overhead_share, 1),
-  Vulnerability = analysis_summary$vulnerability_index,
-  stringsAsFactors = FALSE
-)
-
-colnames(analysis_summary_table) <- c(
-  "Country",
-  "Dominant Fuel",
-  "Fuel Share (%)",
-  "Dominant Sector",
-  "Sector Share (%)",
-  "Fossil Share (%)",
-  "Transport + Buildings (%)",
-  "Vulnerability"
-)
-
-knitr::kable(
-  head(analysis_summary_table, 8),
-  caption = "Leading countries by fuel dependency, demand pressure, and derived vulnerability",
-  digits = 1
-)
+analysis_summary_table <- analysis_summary |>
+  dplyr::arrange(desc(vulnerability_index)) |>
+  dplyr::mutate(Country = factor(Country, levels = rev(analysis_country_levels))) |>
+  dplyr::transmute(
+    Country = as.character(Country),
+    `Dominant Fuel` = dominant_fuel,
+    `Dominant Sector` = dominant_sector,
+    `Vulnerability` = round(vulnerability_index, 1)
+  )
 ```
+
 ```{r}
 #| label: final-vulnerability-plot
+#| eval: true
 #| echo: false
-#| fig-width: 9
-#| fig-height: 5
+#| fig-width: 12
+#| fig-height: 10
+#| out-width: "100%"
 #| dev: png
-plot_data <- analysis_summary |>
-  dplyr::arrange(vulnerability_index) |>
-  dplyr::mutate(Country = factor(Country, levels = Country))
+#| message: false
+#| warning: false
 
-ggplot2::ggplot(plot_data, ggplot2::aes(x = Country, y = vulnerability_index)) +
-  ggplot2::geom_col(fill = "#1b9e77") +
-  ggplot2::coord_flip() +
-  ggplot2::labs(
-    title = "Vulnerability Index by Country",
-    subtitle = "Oil share × (Transport + Buildings) / 100",
-    x = NULL,
-    y = "Vulnerability index"
+plot_data <- analysis_summary |>
+  dplyr::arrange(desc(vulnerability_index), Country) |>
+  dplyr::mutate(
+    Country = factor(Country, levels = rev(unique(Country))),
+    dominant_sector = dplyr::if_else(
+      dominant_fuel == "N/A" | dominant_sector == "N/A",
+      "N/A",
+      dominant_sector
+    ),
+    dominant_fuel = dplyr::if_else(
+      dominant_fuel == "N/A" | dominant_sector == "N/A",
+      "N/A",
+      dominant_fuel
+    )
+  )
+
+ggplot2::ggplot(
+  plot_data,
+  ggplot2::aes(
+    x = Country,
+    y = vulnerability_index,
+    fill = dominant_fuel,
+    color = dominant_sector
+  )
+) +
+  ggplot2::geom_col(width = 0.7, linewidth = 0.45) +
+  ggplot2::geom_text(
+    ggplot2::aes(label = dominant_sector, color = dominant_sector),
+    vjust = -0.45,
+    size = data_chart_geom_text_size,
+    show.legend = FALSE
   ) +
-  ggplot2::theme_minimal(base_size = 12)
+  ggplot2::labs(
+    title = "Dominant-Pair Vulnerability by Country",
+    subtitle = "Derived from dominant fuel share × dominant sector share",
+    x = "Country",
+    y = "Vulnerability",
+    fill = "Dominant Fuel",
+    color = "Most Affected Sector"
+  ) +
+  ggplot2::scale_fill_brewer(palette = "Set2") +
+  ggplot2::scale_color_brewer(palette = "Dark2", na.translate = FALSE) +
+  data_chart_theme(
+    legend_position = "right",
+    axis_x_angle = 35,
+    axis_x_hjust = 1
+  ) + ggplot2::theme(
+    plot.margin = ggplot2::margin(6, 5, 8, 5)
+  )
 ```
 
 :::
 
 :::
 
-## Thank You
 
-Thank you for your time.
+## Thank You {.thank-you}
+
+<div class="thank-you-center">
+  <h1>Thank You</h1>
+</div>
+
+
+
+
