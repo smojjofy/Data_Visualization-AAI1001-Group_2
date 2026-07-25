@@ -354,7 +354,7 @@ knitr::kable(
 #| fig-height: 5
 #| dev: png
 ggplot2::ggplot(analysis_summary, ggplot2::aes(
-  x = dplyr::reorder(Country, vulnerability_index),
+  x = base::reorder(Country, vulnerability_index),
   y = vulnerability_index
 )) +
   ggplot2::geom_col(fill = "#1b9e77") +
@@ -371,5 +371,6 @@ ggplot2::ggplot(analysis_summary, ggplot2::aes(
 ## Thank You
 
 Thank you for your time.
+
 
 
