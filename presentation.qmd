@@ -14,6 +14,13 @@ format:
 #| include: false
 # Global setup chunk for libraries, options, and shared objects.
 ```
+##Team Introduction
+Group 2 Members:
+Lim Ze Kai
+Ziven Wang
+Tan Jing Yu
+Ivan Tan
+Jaison Tan
 
 
 ## Project Overview
