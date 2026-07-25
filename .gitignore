@@ -15,3 +15,4 @@ scripts/
 index.qmd
 /.quarto/
 **/*.quarto_ipynb
+updates.*

@@ -6,7 +6,7 @@ format:
   revealjs:
     theme: [default]
     slide-number: true
-    incremental: true
+    incremental: false
     embed-resources: true
 ---
 
@@ -32,21 +32,40 @@ This presentation documents a critique and improvement of an existing visualizat
 - Structure: long-format data with country, fuel type, end-use sector, percentage, and panel fields
 - **Important note: due to data quality issues at the source (e.g. inconsistent country naming conventions such as "Lao DPR" and "Viet Nam"), the original data could not be used as-is. We therefore built a structurally faithful synthetic proxy dataset that mirrors the real structure and distributions for this project.**
 
-### Existing Chart
+## Existing Chart {.smaller}
 
-![Figure 1: Original IEA Chart - "Total Final Consumption mix by fuel and end-use sector in Southeast Asia, 2024"](images/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024.png){width="55%" fig-align="center"}
+![Original IEA chart - "Total Final Consumption mix by fuel and end-use sector in Southeast Asia, 2024"](images/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024.png){width="85%" fig-align="center"}
 
-- Original visualization: a dual-panel 100% stacked bar chart comparing Southeast Asian countries by fuel mix and end-use sector mix.
+- Dual-panel 100% stacked bars: fuel mix and end-use sector mix across ASEAN.
+- Values are normalized to 100% for each country and panel.
 
 ## Existing Chart: Strengths & Weaknesses {.smaller}
 
-- Strengths: enables direct part-to-whole comparison of energy "DNA" across diverse economies on a shared baseline; tells a clear story of oil/transport dependency vs. bioenergy-to-electricity development divide
-- Weaknesses:
-  - No on-chart legend â€” colors cannot be decoded without external report tables
-  - Two different category systems (fuel vs. sector) shown side by side increases cognitive load
-  - Percentages hide absolute consumption volume differences between countries
-  - Non-baseline stacked segments (e.g. coal, electricity) are hard to compare across countries
-  - Heavy reliance on color with minimal annotation slows interpretation and reduces accessibility
+::: {.columns}
+
+::: {.column width="48%"}
+
+### Strengths
+
+- Compact regional overview.
+- Dual-panel layout links fuel and sector composition.
+- Part-to-whole scale supports comparative reading.
+
+:::
+
+::: {.column width="48%"}
+
+### Weaknesses
+
+- No on-chart legend, so colors cannot be decoded without source metadata.
+- Two category systems (fuel and sector) raise cognitive load.
+- Percentage-only values hide absolute energy scale differences.
+- Mid-stack segment comparisons are hard.
+- Heavy color dependence reduces accessibility.
+
+:::
+
+:::
 
 ## Critical Analysis - What Works
 
@@ -54,14 +73,16 @@ This presentation documents a critique and improvement of an existing visualizat
 - **S2:** Useful dual-panel structure linking fuel mix and end-use sector mix
 - **S3:** 100% stacked format supports proportional comparison
 
-Key message: the original chart is useful as a broad regional overview, but it has limitations for detailed comparison.
+**Key message:** the original chart is useful as a broad regional overview, but it has limitations for detailed comparison.
 
 ## Critical Analysis - Key Weaknesses
 
-- **W1-W2:** Two category systems increase cognitive load, and stacked segments are difficult to compare precisely across countries.
-- **W3:** The percentage-only scale hides differences in absolute energy volume.
-- **W4:** Heavy reliance on colour and legend-reading affects accessibility.
-- **W5-W6:** Limited annotation and default ordering do not support specific analytical questions well.
+| Weakness | How it affects interpretation |
+|---|---|
+| W1-W2 | Two category systems increase mental switching and reduce segment-level comparability. |
+| W3 | Percentage-only values hide total energy scale and may overstate small countries. |
+| W4 | Color decoding dominates, which hurts accessibility and speed. |
+| W5-W6 | Weak ordering and annotation make targeted country comparisons harder. |
 
 ## Proposed Improvements
 
@@ -74,7 +95,7 @@ Key message: the original chart is useful as a broad regional overview, but it h
 | W5 | Selective annotations and callouts |
 | W6 | Sort countries by a meaningful analytical metric |
 
-## Redesign Direction
+## Redesign Direction {.smaller}
 
 - Keep the original chart's regional comparison purpose.
 - Preserve the dual analytical lens: fuel mix and end-use sector.
@@ -89,12 +110,20 @@ Key message: the original chart is useful as a broad regional overview, but it h
 - Compare countries by fossil-fuel reliance, low-carbon share, and sector concentration in industry, transport, and buildings, while validating that each country-dimension pair sums to 100%.
 - Address key questions: which countries are most dependent on oil and transport, which are more industry-driven or building-driven, and whether stronger fossil-fuel reliance is linked to greater exposure to energy price shocks.
 
-## Reproducible Workflow
+## Reproducible Workflow {.smaller}
+
+::: {.columns}
+
+::: {.column width="42%"}
 
 - Load from `data/energy_data.csv` with `here::here()` so the workflow is portable.
 - Normalize country names, coerce numeric percentages, and set factor levels for stable ordering.
 - Derive indicator-ready metrics (for example, fossil share and industry/consumer-demand shares).
 - Generate plots from this single cleaned object, then render directly to `presentation.qmd`.
+
+:::
+
+::: {.column width="58%"}
 
 ```{r}
 #| label: workflow-prepare
@@ -124,11 +153,23 @@ energy_summary <- energy_data |>
   )
 ```
 
-## Reproducibility
+:::
 
-- Checks are coded to fail fast: missing values, percentages out of bounds, duplicate rows, and composition sums.
-- Each country-dimension pair is required to sum to `100 +/- 0.01` for compositional integrity.
-- Render commands are fixed and repeatable from the project root: `quarto preview presentation.qmd` and `quarto render presentation.qmd`.
+:::
+
+## Reproducibility {.smaller}
+
+::: {.columns}
+
+::: {.column width="42%"}
+
+- Checks are coded to fail fast: missing values, bounds, duplicate rows, and composition sums.
+- Each `(Country, Dimension)` pair must sum to `100 +/- 0.01`.
+- Render commands are fixed: `quarto preview presentation.qmd` and `quarto render presentation.qmd` from repo root.
+
+:::
+
+::: {.column width="58%"}
 
 ```{r}
 #| label: workflow-checks
@@ -147,3 +188,13 @@ composition_check <- energy_data |>
 stopifnot(all(abs(composition_check$total_pct - 100) <= 1e-2))
 sessionInfo()
 ```
+
+:::
+
+:::
+
+## Thank You
+
+Thank you for your attention.
+
+Questions?
