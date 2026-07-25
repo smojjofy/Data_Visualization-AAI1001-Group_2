@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Southeast Asia Energy Consumption Visualization Project"
 author: "Group 2"
 date: "2026-07-13"
@@ -15,15 +15,20 @@ format:
 # Global setup chunk for libraries, options, and shared objects.
 ```
 
-## Project Overview
 
-This presentation documents a critique and improvement of an existing visualization of Southeast Asia's energy consumption patterns.
+## Project Overview
+After initial general research across ASEAN countries, we narrowed down on energy visualizations as they a often poorly represented.
+
+Our presentation documents a critique and improvement of an existing visualization of Southeast Asia's energy consumption.
+
 
 ## Project Objectives
 
-1. Apply data analysis techniques to generate meaningful insights from structured data.
-2. Document data and code to ensure clarity, transparency, and reproducibility.
-3. Collaborate effectively as a team to execute a complete, version-controlled data workflow.
+**First**, how does fuel consumption and their type vary across the different ASEAN nations?
+
+**Second**, are there meaningful structural differences in how energy is used across sectors that aggregate regional narratives conceal?
+
+**Third**, does the relationship between a country's primary fuel source and its dominant end-use sector support or challenge the narrative that developing, agrarian-industrial economies face fundamentally different inflationary energy risks than hyper-dense, import-dependent commercial hubs?
 
 ## Data Context {.smaller}
 
