@@ -7,6 +7,7 @@ format:
     theme: [default]
     slide-number: true
     incremental: true
+    embed-resources: true
 ---
 
 ```{r}
@@ -24,17 +25,28 @@ This presentation documents a critique and improvement of an existing visualizat
 2. Document data and code to ensure clarity, transparency, and reproducibility.
 3. Collaborate effectively as a team to execute a complete, version-controlled data workflow.
 
-## Data Context
+## Data Context {.smaller}
 
 - Source dataset: `data/energy_data.csv`
 - Scope: Southeast Asia, 2024
 - Structure: long-format data with country, fuel type, end-use sector, percentage, and panel fields
-- Note: This project uses a structurally faithful synthetic proxy dataset.
+- **Important note: due to data quality issues at the source (e.g. inconsistent country naming conventions such as "Lao DPR" and "Viet Nam"), the original data could not be used as-is. We therefore built a structurally faithful synthetic proxy dataset that mirrors the real structure and distributions for this project.**
 
 ### Existing Chart
 
+![Figure 1: Original IEA Chart - "Total Final Consumption mix by fuel and end-use sector in Southeast Asia, 2024"](images/total-final-consumption-mix-by-fuel-and-end-use-sector-in-southeast-asia-2024.png){width="55%" fig-align="center"}
+
 - Original visualization: a dual-panel 100% stacked bar chart comparing Southeast Asian countries by fuel mix and end-use sector mix.
-- It is effective for a broad regional overview, but less effective for detailed comparison.
+
+## Existing Chart: Strengths & Weaknesses {.smaller}
+
+- Strengths: enables direct part-to-whole comparison of energy "DNA" across diverse economies on a shared baseline; tells a clear story of oil/transport dependency vs. bioenergy-to-electricity development divide
+- Weaknesses:
+  - No on-chart legend — colors cannot be decoded without external report tables
+  - Two different category systems (fuel vs. sector) shown side by side increases cognitive load
+  - Percentages hide absolute consumption volume differences between countries
+  - Non-baseline stacked segments (e.g. coal, electricity) are hard to compare across countries
+  - Heavy reliance on color with minimal annotation slows interpretation and reduces accessibility
 
 ## Critical Analysis - What Works
 
