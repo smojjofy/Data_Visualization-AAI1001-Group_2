@@ -232,29 +232,33 @@ Applying the Analysis Plan:
 #| echo: true
 #| eval: true
 
-if (!exists("energy_data")) {
-  energy_data <- readr::read_csv(
-    file.path("data", "energy_data.csv"),
-    show_col_types = FALSE
+prepare_energy_data <- function(filepath = file.path("data", "energy_data.csv")) {
+  d <- readr::read_csv(filepath, show_col_types = FALSE)
+  dplyr::mutate(
+    d,
+    Country = stringr::str_squish(Country),
+    Category = stringr::str_squish(Category),
+    Dimension = stringr::str_squish(Dimension),
+    Percentage = as.numeric(Percentage),
+    Dimension = factor(Dimension, levels = c("Fuel", "Sector"))
   )
 }
 
-energy_data <- energy_data |>
-  dplyr::mutate(
-    Country = stringr::str_squish(Country),
-    Percentage = as.numeric(Percentage),
-    Dimension = factor(Dimension, levels = c("Fuel", "Sector")),
-    Country = factor(
-      Country,
-      levels = c(
-        "Brunei Darussalam", "Cambodia", "Indonesia", "Lao DPR",
-        "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Viet Nam"
-      )
+if (!exists("energy_data")) {
+  energy_data <- prepare_energy_data()
+}
+energy_data <- prepare_energy_data() |> dplyr::mutate(
+  Country = factor(
+    Country,
+    levels = c(
+      "Brunei Darussalam", "Cambodia", "Indonesia", "Lao DPR",
+      "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Viet Nam"
     )
   )
+)
 
-analysis_metrics <- energy_data |>
-  dplyr::group_by(Country) |>
+analysis_metrics <- energy_data |> 
+  dplyr::group_by(Country) |> 
   dplyr::summarise(
     oil_share = sum(Percentage[Dimension == "Fuel" & Category == "Oil"], na.rm = TRUE),
     fossil_share = sum(Percentage[Dimension == "Fuel" & Category %in% c("Oil", "Coal", "Natural Gas")], na.rm = TRUE),
@@ -263,29 +267,43 @@ analysis_metrics <- energy_data |>
     transport_share = sum(Percentage[Dimension == "Sector" & Category == "Transport"], na.rm = TRUE),
     buildings_share = sum(Percentage[Dimension == "Sector" & Category == "Buildings"], na.rm = TRUE),
     .groups = "drop"
-  ) |>
+  ) |> 
   dplyr::mutate(
     consumer_overhead_share = transport_share + buildings_share,
     vulnerability_index = round((oil_share * consumer_overhead_share) / 100, 1)
   )
 
-fuel_top <- energy_data |>
-  dplyr::filter(Dimension == "Fuel") |>
-  dplyr::group_by(Country, Category) |>
-  dplyr::summarise(share = sum(Percentage), .groups = "drop") |>
-  dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |>
-  dplyr::rename(dominant_fuel = Category, dominant_fuel_share = share)
+fuel_top <- energy_data |> 
+  dplyr::filter(Dimension == "Fuel") |> 
+  dplyr::group_by(Country, Category) |> 
+  dplyr::summarise(share = sum(Percentage), .groups = "drop") |> 
+  dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |> 
+  dplyr::transmute(
+    Country,
+    dominant_fuel = Category,
+    dominant_fuel_share = share
+  )
 
-sector_top <- energy_data |>
-  dplyr::filter(Dimension == "Sector") |>
-  dplyr::group_by(Country, Category) |>
-  dplyr::summarise(share = sum(Percentage), .groups = "drop") |>
-  dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |>
-  dplyr::rename(dominant_sector = Category, dominant_sector_share = share)
+sector_top <- energy_data |> 
+  dplyr::filter(Dimension == "Sector") |> 
+  dplyr::group_by(Country, Category) |> 
+  dplyr::summarise(share = sum(Percentage), .groups = "drop") |> 
+  dplyr::slice_max(order_by = share, n = 1, with_ties = FALSE) |> 
+  dplyr::transmute(
+    Country,
+    dominant_sector = Category,
+    dominant_sector_share = share
+  )
 
-analysis_summary <- analysis_metrics |>
-  dplyr::left_join(fuel_top, by = "Country") |>
-  dplyr::left_join(sector_top, by = "Country") |>
+analysis_summary <- analysis_metrics |> 
+  dplyr::left_join(fuel_top, by = "Country") |> 
+  dplyr::left_join(sector_top, by = "Country") |> 
+  dplyr::mutate(
+    dominant_fuel_share = dplyr::coalesce(dominant_fuel_share, 0),
+    dominant_sector_share = dplyr::coalesce(dominant_sector_share, 0),
+    dominant_fuel = dplyr::coalesce(dominant_fuel, "N/A"),
+    dominant_sector = dplyr::coalesce(dominant_sector, "N/A")
+  ) |> 
   dplyr::arrange(dplyr::desc(vulnerability_index))
 
 knitr::kable(
@@ -338,4 +356,5 @@ ggplot2::ggplot(analysis_summary, ggplot2::aes(
 ## Thank You
 
 Thank you for your time.
+
 
