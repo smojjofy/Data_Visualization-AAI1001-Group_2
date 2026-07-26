@@ -5,6 +5,7 @@ date: "2026-07-13"
 format:
   revealjs:
     theme: [default]
+    css: [styles/style.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -45,78 +46,28 @@ data_chart_theme <- function(legend_position = "right", axis_x_angle = 0, axis_x
 }
 ```
 
-```{=html}
-<style>
-  :root {
-    --data-chart-text-size: 90%;
-  }
-  .data-chart-note {
-    font-size: var(--data-chart-text-size);
-  }
-  .thank-you-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 80vh;
-    width: 100%;
-  }
-  .thank-you-center h1 {
-    margin: 0;
-    text-align: center;
-  }
-  section.thank-you > h2 {
-    display: none;
-  }
-  section.thank-you {
-    padding-top: 0;
-  }
-  .final-chart-columns {
-    align-items: flex-start;
-  }
-  .final-chart-columns .column {
-    padding-top: 0;
-  }
-  .final-chart-note {
-    margin-top: 0.15rem;
-    line-height: 1.35;
-    padding-right: 0.35rem;
-  }
-  .final-chart-note ul {
-    margin-top: 0.35rem;
-    margin-bottom: 0.25rem;
-    padding-left: 1rem;
-  }
-  .final-chart-note li + li {
-    margin-top: 0.2rem;
-  }
-  .final-chart-note.final-left {
-    font-size: 95%;
-  }
-  .final-chart-note.final-left ul {
-    margin-top: 0.5rem;
-  }
-
-</style>
-```
-Group 2 Members:  
-Lim Ze Kai  
-Ziven Wang  
-Tan Jing Yu  
-Ivan Tan  
-Jaison Tan  
+**Group 2 Members:**  
+1. Lim Ze Kai  
+2. Ziven Wang  
+3. Tan Jing Yu  
+4. Ivan Tan  
+5. Jaison Tan  
 
 ## Project Overview
 After initial general research across ASEAN countries, we narrowed down on energy visualizations as they are often poorly represented.  
   
 Our presentation documents a critique and improvement of an existing visualization of Southeast Asia's energy consumption.
 
+<div style="text-align:center; margin-top:1rem;">
+  <img alt="Southeast Asia energy visualization" src="images/Southeast-asia-cambodia-laos-myanmar-thailand-vietnam-malaysia-singapore-brunei-indonesia-philippines-east-timor.webp" style="max-width:55%; width:55%; height:auto; display:block; margin:0 auto;" />
+</div>
 ## Project Objectives
 
-**First**, how does fuel consumption and their type vary across the different ASEAN nations?
+1. How does fuel consumption and their type vary across the different ASEAN nations?
 
-**Second**, are there meaningful structural differences in how energy is used across sectors that aggregate regional narratives conceal?
+2. Are there meaningful structural differences in how energy is used across sectors that aggregate regional narratives conceal?
 
-**Third**, does the relationship between a country's primary fuel source and its dominant end-use sector support or challenge the narrative that developing, agrarian-industrial economies face fundamentally different inflationary energy risks than hyper-dense, import-dependent commercial hubs?
+3. Does the relationship between a country's primary fuel source and its dominant end-use sector support or challenge the narrative that developing, agrarian-industrial economies face fundamentally different inflationary energy risks than hyper-dense, import-dependent commercial hubs?
 
 ## Data Context
 
@@ -125,7 +76,8 @@ Our presentation documents a critique and improvement of an existing visualizati
 - Source dataset: `data/energy_data.csv`
 - Scope: Southeast Asia, 2024
 - Structure: long-format data with country, fuel type, end-use sector, percentage, and panel fields
-- **Important note: due to data quality issues at the source (e.g. inconsistent country naming conventions such as "Lao DPR" and "Viet Nam"), the original data could not be used as-is. We therefore built a structurally faithful synthetic proxy dataset that mirrors the real structure and distributions for this project.**
+
+**Important note: due to data quality issues at the source (e.g. inconsistent country naming conventions such as "Lao DPR" and "Viet Nam"), the original data could not be used as-is. We therefore built a structurally faithful synthetic proxy dataset that mirrors the real structure and distributions for this project.**
 
 </div>
 
@@ -559,6 +511,9 @@ ggplot2::ggplot(
 <div class="thank-you-center">
   <h1>Thank You</h1>
 </div>
+
+
+
 
 
 
