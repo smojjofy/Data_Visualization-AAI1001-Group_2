@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Southeast Asia Energy Consumption Visualization Project"
 author: "Group 2"
 date: "2026-07-13"
@@ -222,26 +222,21 @@ Our presentation documents a critique and improvement of an existing visualizati
 
 ## Redesign Direction
 
-<div style="font-size: 90%;">
+- Keep the original chart's core purpose: compare energy patterns across ASEAN countries.
+- Preserve both perspectives: fuel mix and end-use sector.
+- Use aligned panels and cleaner labels so side-by-side comparison is easier.
 
-- Keep the original chart's regional comparison purpose.
-- Preserve the dual analytical lens: fuel mix and end-use sector.
-- Improve readability using aligned panels or a horizontal structure.
-- Improve accessibility through better colour and labelling.
-- Improve storytelling using annotations and meaningful ordering.
-- Include a caption noting that the chart is based on a structurally faithful synthetic proxy of the original IEA visualization.
+## Redesign Direction
 
-</div>
+- Improve readability with stronger visual hierarchy and fewer interpretation steps.
+- Use a more accessible colour palette and simpler legend and annotations.
+- Add an explicit note that values are percentages, not absolute energy totals.
 
 ## Analysis Plan
 
-<div style="font-size: 87%;">
-
-- Summarize the fuel mix and end-use sector mix for each ASEAN country using the percentage shares in the dataset, and identify the dominant categories in each case.
-- Compare countries by fossil-fuel reliance, low-carbon share, and sector concentration in industry, transport, and buildings, while validating that each country-dimension pair sums to 100%.
-- Identify each country's dominant fuel and dominant sector, then derive a single overall vulnerability ranking based on the overlap of those dominant shares to compare relative exposure to energy-demand pressure.
-
-</div>
+- Summarise fuel and sector shares for each country and find dominant categories.
+- Compare dominant fuel and dominant sector with 100% normalization checks.
+- Combine fuel and sector comparison into an ascending vulnerability ranking to find energy-demand exposure.
 
 ## Reproducible Workflow {.smaller}
 
@@ -249,10 +244,9 @@ Our presentation documents a critique and improvement of an existing visualizati
 
 ::: {.column width="42%"}
 
-- Standardize `data/energy_data.csv` into one cleaned table.
+- Standardize the dataset into one clean table.
+- Run checks for missing values, duplicates, invalid percentages, and outliers.
 - Normalize country names, percentage types, and factor levels.
-- Reuse this dataset for both visualization and analysis.
-- Generate every chart from the same object for repeatability.
 
 :::
 
@@ -295,15 +289,15 @@ energy_data <- readr::read_csv(
 
 :::
 
-## Reproducibility {.smaller}
+## Reproducible Workflow {.smaller}
 
 ::: {.columns}
 
 ::: {.column width="42%"}
 
-- Run checks for missing values, duplicates, invalid percentages, and outliers.
-- Verify each Country and Dimension group sums to 100% (within tolerance).
-- Recreate outputs using fixed commands: `quarto preview` and `quarto render`.
+- Reuse this dataset for both visualization and analysis.
+- Recreate outputs using fixed commands: `quarto render`.
+- Verify data chart accuracy and pipelines anomalies.
 
 :::
 
@@ -442,8 +436,9 @@ ggplot2::ggplot(
 
 <div class="data-chart-note final-chart-note">
 
-- Rank countries by dominant fuel-sector exposure.
-- Fill bars by dominant fuel and label each bar by dominant sector.
+- Rank countries by fuel-sector vulnerability.
+- Fill bar colours by dominant fuel
+- Apply text above each bar for dominant sector.
 
 </div>
 
